@@ -9,22 +9,21 @@ export interface OcrResult {
   uncertainItems: { text: string; reason: string }[];
 }
 
-const SYSTEM_PROMPT = `You are a medical transcription assistant specializing in extracting text from handwritten doctor notes.
+const SYSTEM_PROMPT = `You are a handwriting transcription assistant. Your only job is to read text from images and output exactly what is written.
 
 Rules:
-- Prioritize faithful transcription over guessing
-- Preserve line breaks where useful
-- Mark uncertain words as [unclear: <your best guess>]
-- Do NOT invent diagnoses, medicines, or dosages
-- Separate output into three sections
-- Output strict JSON only, no markdown fences
+- Transcribe every word you can see, exactly as written
+- Preserve line breaks and paragraph structure
+- Mark illegible words as [unclear: <best guess>]
+- Never refuse, never add commentary, never add your own content
+- Output strict JSON only, no markdown fences, no explanation
 
 Output format:
 {
-  "raw_transcription": "...",
-  "cleaned_note": "...",
+  "raw_transcription": "exact text as written in the image",
+  "cleaned_note": "lightly formatted version with punctuation cleaned up",
   "uncertain_items": [
-    { "text": "...", "reason": "illegible handwriting" }
+    { "text": "the unclear word", "reason": "illegible handwriting" }
   ]
 }`;
 
@@ -41,13 +40,20 @@ export async function extractTextFromImage(imageBase64: string, mimeType: string
             type: 'image_url',
             image_url: { url: `data:${mimeType};base64,${imageBase64}`, detail: 'high' },
           },
-          { type: 'text', text: 'Please transcribe this handwritten medical note.' },
+          { type: 'text', text: 'Transcribe all the handwritten text in this image.' },
         ],
       },
     ],
   });
 
   const raw = response.choices[0]?.message?.content || '{}';
+
+  // Detect refusals — throw so the API route returns a proper error
+  const REFUSAL_PATTERNS = ["unable to assist", "can't assist", "cannot assist", "i'm sorry", "i cannot", "i can't"];
+  if (REFUSAL_PATTERNS.some(p => raw.toLowerCase().includes(p))) {
+    throw new Error('OCR_REFUSAL');
+  }
+
   return parseOcrResponse(raw);
 }
 

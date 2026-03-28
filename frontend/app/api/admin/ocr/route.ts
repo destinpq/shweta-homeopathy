@@ -47,6 +47,10 @@ export async function POST(req: NextRequest) {
     const result = await extractTextFromImage(imageBase64, mimeType);
     return NextResponse.json({ ...result, driveFileId, driveFileName });
   } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : '';
+    if (msg === 'OCR_REFUSAL') {
+      return NextResponse.json({ error: 'The image could not be transcribed. Please ensure it contains clear handwritten text and try again.' }, { status: 422 });
+    }
     console.error('[ocr]', err);
     return NextResponse.json({ error: 'OCR extraction failed' }, { status: 500 });
   }
