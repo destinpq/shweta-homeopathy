@@ -24,12 +24,10 @@ export default async function TestimonialsPage() {
 
   return (
     <>
-      {/* Hero — negative margin pulls it up behind the transparent header */}
+      {/* Hero */}
       <section style={{
         background: 'linear-gradient(160deg, hsl(152,42%,14%), hsl(152,30%,28%))',
         padding: 'var(--space-16) 0',
-        marginTop: 'calc(-1 * var(--header-h))',
-        paddingTop: 'calc(var(--header-h) + var(--space-16))',
       }}>
         <div className="container">
           <span className="section-label" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>Real Stories</span>

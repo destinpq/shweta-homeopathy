@@ -137,3 +137,62 @@ export async function getBlogDocHtml(docId: string): Promise<string> {
 
   return res.data as string;
 }
+
+// ─── Client notes Doc functions ───────────────────────────────────────────────
+
+/**
+ * Create a blank Google Doc for a new client and move it into their Drive folder.
+ */
+export async function createClientDoc(opts: {
+  clientId: string;
+  clientName: string;
+  folderId: string;
+}): Promise<{ docId: string; url: string }> {
+  const auth  = getAuth();
+  const docs  = google.docs({ version: 'v1', auth });
+  const drive = google.drive({ version: 'v3', auth });
+
+  const title = `Client Notes — ${opts.clientName} [${opts.clientId}]`;
+  const doc   = await docs.documents.create({ requestBody: { title } });
+  const docId = doc.data.documentId as string;
+
+  // Move into client's folder
+  const file    = await drive.files.get({ fileId: docId, fields: 'parents' });
+  const parents = (file.data.parents || []).join(',');
+  await drive.files.update({
+    fileId: docId,
+    addParents: opts.folderId,
+    removeParents: parents,
+    fields: 'id,parents',
+  });
+
+  // Insert header
+  const header = `CLIENT NOTES\n${opts.clientName} — ID: ${opts.clientId}\n${'─'.repeat(50)}\n\n`;
+  await docs.documents.batchUpdate({
+    documentId: docId,
+    requestBody: { requests: [{ insertText: { location: { index: 1 }, text: header } }] },
+  });
+
+  return { docId, url: `https://docs.google.com/document/d/${docId}/edit` };
+}
+
+/**
+ * Append a timestamped session note entry to a client's Google Doc.
+ */
+export async function appendToClientDoc(docId: string, text: string, sessionDate?: string): Promise<void> {
+  const auth = getAuth();
+  const docs = google.docs({ version: 'v1', auth });
+
+  const doc      = await docs.documents.get({ documentId: docId });
+  const endIndex = doc.data.body?.content?.at(-1)?.endIndex ?? 2;
+
+  const dateStr = sessionDate || new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+  const entry   = `\n── Session: ${dateStr} ──\n${text}\n`;
+
+  await docs.documents.batchUpdate({
+    documentId: docId,
+    requestBody: {
+      requests: [{ insertText: { location: { index: endIndex - 1 }, text: entry } }],
+    },
+  });
+}

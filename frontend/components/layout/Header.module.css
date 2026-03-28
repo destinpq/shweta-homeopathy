@@ -5,14 +5,14 @@
   right: 0;
   z-index: 100;
   height: var(--header-h);
-  background: transparent;
-  transition: background var(--transition-base), box-shadow var(--transition-base);
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: box-shadow var(--transition-base);
+  border-bottom: 1px solid var(--clr-border);
 }
 
 .header.scrolled {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   box-shadow: var(--shadow-sm);
 }
 
@@ -63,11 +63,7 @@
   margin-top: 2px;
 }
 
-/* Override logo colors when header is on dark hero */
-.header:not(.scrolled) .logoName,
-.header:not(.scrolled) .logoSub {
-  color: rgba(255, 255, 255, 0.9);
-}
+
 
 .nav {
   display: flex;
@@ -92,14 +88,7 @@
   background: var(--clr-sage-pale);
 }
 
-.header:not(.scrolled) .navLink {
-  color: rgba(255, 255, 255, 0.9);
-}
 
-.header:not(.scrolled) .navLink:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.15);
-}
 
 /* Mobile toggle */
 .menuBtn {
@@ -122,9 +111,7 @@
   transition: transform var(--transition-base), opacity var(--transition-base);
 }
 
-.header:not(.scrolled) .menuBar {
-  background: white;
-}
+
 
 .menuBar.open:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .menuBar.open:nth-child(2) { opacity: 0; }

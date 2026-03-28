@@ -60,3 +60,17 @@ export async function getFilePublicUrl(fileId: string): Promise<string> {
   });
   return `https://drive.google.com/uc?id=${fileId}`;
 }
+
+export async function createDriveFolder(name: string, parentFolderId: string): Promise<string> {
+  const auth  = getAuth();
+  const drive = google.drive({ version: 'v3', auth });
+  const res   = await drive.files.create({
+    requestBody: {
+      name,
+      mimeType: 'application/vnd.google-apps.folder',
+      parents: [parentFolderId],
+    },
+    fields: 'id',
+  });
+  return res.data.id as string;
+}
