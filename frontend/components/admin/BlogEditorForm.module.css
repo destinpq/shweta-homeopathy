@@ -28,3 +28,8 @@
 .editorPlaceholder { height: 520px; background: var(--clr-bg-lt); display: flex; align-items: center; justify-content: center; color: var(--clr-text-lt); font-size: var(--text-sm); }
 .coverRow { display: flex; gap: var(--space-2); align-items: center; }
 .coverPreview { margin-top: var(--space-2); max-height: 140px; border-radius: var(--radius-md); border: 1px solid var(--clr-border); object-fit: cover; }
+
+@media (max-width: 640px) {
+  .row { grid-template-columns: 1fr; }
+  .actions { flex-wrap: wrap; }
+}

@@ -152,3 +152,8 @@
   .textCol { align-items: center; text-align: center; }
   .points li { text-align: left; }
 }
+
+@media (max-width: 640px) {
+  .section { padding-block: var(--space-12); }
+  .playIcon { width: 56px; height: 56px; font-size: 18px; }
+}

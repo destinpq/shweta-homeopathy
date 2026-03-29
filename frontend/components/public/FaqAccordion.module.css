@@ -55,3 +55,14 @@
   line-height: 1.8;
   color: var(--clr-text-mid);
 }
+
+@media (max-width: 640px) {
+  .question {
+    font-size: var(--text-base);
+    padding: var(--space-4) var(--space-2);
+  }
+  .answerText {
+    font-size: var(--text-sm);
+    padding: 0 var(--space-2) var(--space-4);
+  }
+}

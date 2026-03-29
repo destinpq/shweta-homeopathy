@@ -97,3 +97,10 @@
   font-weight: 600;
   font-size: 0.9em;
 }
+
+@media (max-width: 640px) {
+  .colLabel { width: auto; white-space: normal; }
+  .colLink { display: none; }
+  .table th, .table td { padding: var(--space-2) var(--space-3); font-size: var(--text-xs); }
+  .colValue code { font-size: var(--text-xs); }
+}

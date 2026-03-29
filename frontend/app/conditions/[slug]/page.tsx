@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getAllConditions, getConditionBySlug } from '@/lib/healing-conditions';
+import { STATIC_CONDITIONS } from '@/lib/static-conditions';
 import { buildMetadata, buildConditionSchema } from '@/lib/seo';
 import {
   Activity, Phone, CheckCircle2, Stethoscope,
@@ -12,8 +13,15 @@ import RedFlagDrawer from '@/components/public/RedFlagDrawer';
 import styles from './condition.module.css';
 
 export async function generateStaticParams() {
-  const conditions = await getAllConditions(false).catch(() => []);
-  return conditions.map((c) => ({ slug: c.slug }));
+  const sheetConditions = await getAllConditions(false).catch(() => []);
+  const sheetSlugs = new Set(sheetConditions.map((c) => c.slug));
+  const staticSlugs = STATIC_CONDITIONS
+    .filter((c) => !sheetSlugs.has(c.slug))
+    .map((c) => ({ slug: c.slug }));
+  return [
+    ...sheetConditions.map((c) => ({ slug: c.slug })),
+    ...staticSlugs,
+  ];
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {

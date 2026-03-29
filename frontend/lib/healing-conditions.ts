@@ -1,10 +1,12 @@
 import { readSheet, appendToSheet, updateSheetRow, deleteSheetRow } from './google/sheets';
+import type { ConditionCategory } from './conditions';
+import { STATIC_CONDITIONS } from './static-conditions';
 
 const SHEET_ID = () => process.env.GOOGLE_SHEETS_CONDITIONS_ID || '';
 const TAB      = 'Conditions';
-const RANGE    = `${TAB}!A:H`;
-// Columns: slug | name | shortDesc | intro | symptoms | howHomeopathyHelps | icon | status
-const HEADERS  = ['slug','name','shortDesc','intro','symptoms','howHomeopathyHelps','icon','status'];
+const RANGE    = `${TAB}!A:I`;
+// Columns: slug | name | shortDesc | intro | symptoms | howHomeopathyHelps | icon | status | category
+const HEADERS  = ['slug','name','shortDesc','intro','symptoms','howHomeopathyHelps','icon','status','category'];
 
 export interface HealingCondition {
   slug: string;
@@ -15,6 +17,7 @@ export interface HealingCondition {
   howHomeopathyHelps: string;
   icon: string;
   status: 'published' | 'draft';
+  category?: ConditionCategory;
 }
 
 function rowToCondition(row: string[]): HealingCondition {
@@ -27,13 +30,14 @@ function rowToCondition(row: string[]): HealingCondition {
     howHomeopathyHelps: row[5] ?? '',
     icon:               row[6] ?? '',
     status:             row[7] === 'draft' ? 'draft' : 'published',
+    category:           (row[8] as ConditionCategory) || undefined,
   };
 }
 
 function conditionToRow(c: HealingCondition): string[] {
   return [
     c.slug, c.name, c.shortDesc, c.intro,
-    c.symptoms.join('|'), c.howHomeopathyHelps, c.icon, c.status,
+    c.symptoms.join('|'), c.howHomeopathyHelps, c.icon, c.status, c.category ?? '',
   ];
 }
 
@@ -44,18 +48,23 @@ async function ensureHeaders() {
 
 export async function getAllConditions(includeDraft = false): Promise<HealingCondition[]> {
   const rows = await readSheet(SHEET_ID(), RANGE);
-  if (!rows || rows.length <= 1) return [];
+  if (!rows || rows.length <= 1) return STATIC_CONDITIONS.filter(c => includeDraft || c.status === 'published');
   const all = rows.slice(1).filter(r => r[0]).map(rowToCondition);
   return includeDraft ? all : all.filter(c => c.status === 'published');
 }
 
 export async function getConditionBySlug(slug: string): Promise<{ condition: HealingCondition; rowIndex: number } | null> {
   const rows = await readSheet(SHEET_ID(), RANGE);
-  if (!rows || rows.length <= 1) return null;
+  if (!rows || rows.length <= 1) {
+    const staticMatch = STATIC_CONDITIONS.find(c => c.slug === slug);
+    return staticMatch ? { condition: staticMatch, rowIndex: -1 } : null;
+  }
   for (let i = 1; i < rows.length; i++) {
     if (rows[i][0] === slug) return { condition: rowToCondition(rows[i]), rowIndex: i };
   }
-  return null;
+  // Also check static conditions if not found in sheet
+  const staticMatch = STATIC_CONDITIONS.find(c => c.slug === slug);
+  return staticMatch ? { condition: staticMatch, rowIndex: -1 } : null;
 }
 
 export async function createCondition(data: HealingCondition): Promise<HealingCondition> {
