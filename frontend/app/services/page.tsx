@@ -1,7 +1,11 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { conditions } from '@/lib/conditions';
+import { getAllConditions } from '@/lib/healing-conditions';
 import { buildMetadata } from '@/lib/seo';
+import { Shield, Target, Leaf } from 'lucide-react';
+import ServiceFilterGrid from '@/components/public/ServiceFilterGrid';
+import ConsultationPathway from '@/components/public/ConsultationPathway';
+import styles from './services.module.css';
 
 export const metadata: Metadata = buildMetadata({
   title: 'Conditions We Treat',
@@ -12,56 +16,51 @@ export const metadata: Metadata = buildMetadata({
 
 export const revalidate = 3600;
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const liveConditions = await getAllConditions(false).catch(() => []);
+
   return (
     <>
-      {/* Hero */}
-      <section style={{
-        background: 'linear-gradient(160deg, hsl(152,42%,14%), hsl(152,30%,28%))',
-        padding: 'var(--space-16) 0',
-      }}>
-        <div className="container">
-          <span className="section-label" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>
-            Services
-          </span>
-          <h1 style={{ color: 'var(--clr-white)', marginTop: 'var(--space-3)', marginBottom: 'var(--space-4)' }}>
-            Conditions We Treat
-          </h1>
-          <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 'var(--text-lg)', maxWidth: '600px' }}>
-            Classical homeopathic treatment for chronic, complex, and difficult-to-treat conditions.
-            Each patient receives an individualized prescription — never a one-size-fits-all approach.
+      {/* Glassmorphism hero */}
+      <section className={styles.hero}>
+        <div className={styles.heroGlow1} aria-hidden />
+        <div className={styles.heroGlow2} aria-hidden />
+        <div className={`container ${styles.heroInner}`}>
+          <span className={styles.heroBadge}>Services</span>
+          <h1 className={styles.heroTitle}>Conditions&nbsp;We&nbsp;Treat</h1>
+          <p className={styles.heroSub}>
+            Classical homeopathic treatment for chronic, complex, and
+            difficult-to-treat conditions. Every prescription is individually
+            crafted — never protocol-driven.
           </p>
-        </div>
-      </section>
-
-      {/* Conditions grid */}
-      <section className="section">
-        <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--space-6)' }}>
-            {conditions.map((c) => (
-              <Link key={c.slug} href={`/conditions/${c.slug}`} style={{ textDecoration: 'none' }}>
-                <div className="card" style={{ height: '100%', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', cursor: 'pointer' }}>
-                  <div style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'flex-start' }}>
-                    <span style={{ fontSize: '36px', flexShrink: 0 }}>{c.icon}</span>
-                    <div>
-                      <h3 style={{ fontSize: 'var(--text-xl)', marginBottom: 'var(--space-2)' }}>{c.name}</h3>
-                      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--clr-text-mid)', lineHeight: 1.65 }}>{c.shortDesc}</p>
-                    </div>
-                  </div>
-                  <div style={{ marginTop: 'auto', paddingTop: 'var(--space-3)', borderTop: '1px solid var(--clr-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: 'var(--text-xs)', color: 'var(--clr-text-lt)' }}>
-                      {c.symptoms.length} common symptoms
-                    </span>
-                    <span style={{ fontSize: 'var(--text-sm)', color: 'var(--clr-sage)', fontWeight: 600 }}>
-                      Learn more →
-                    </span>
-                  </div>
-                </div>
-              </Link>
+          <div className={styles.heroStats}>
+            {[
+              { num: '100+', label: 'Conditions treated' },
+              { num: '10 000+', label: 'Patients healed' },
+              { num: '15+', label: 'Years experience' },
+            ].map((s) => (
+              <div key={s.label} className={styles.heroStat}>
+                <span className={styles.heroStatNum}>{s.num}</span>
+                <span className={styles.heroStatLabel}>{s.label}</span>
+              </div>
             ))}
           </div>
         </div>
       </section>
+
+      {/* Filterable conditions bento grid */}
+      <section className="section">
+        <div className="container">
+          <div style={{ textAlign: 'center', marginBottom: 'var(--space-10)' }}>
+            <span className="section-label">Explore by category</span>
+            <h2 style={{ marginTop: 'var(--space-3)' }}>Find Your Condition</h2>
+          </div>
+          <ServiceFilterGrid conditions={liveConditions} />
+        </div>
+      </section>
+
+      {/* Consultation process */}
+      <ConsultationPathway />
 
       {/* Benefits */}
       <section className="section" style={{ background: 'var(--clr-sage-pale)' }}>
@@ -72,14 +71,16 @@ export default function ServicesPage() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--space-6)' }}>
             {[
-              { icon: '🛡️', title: 'Zero Side Effects', desc: 'Safe for children, pregnant women, nursing mothers, and the elderly.' },
-              { icon: '🎯', title: 'Permanent Cure', desc: 'Removes the root cause of disease rather than managing symptoms indefinitely.' },
-              { icon: '🌿', title: 'Natural Healing', desc: 'Highly diluted natural remedies that stimulate the body\'s own healing intelligence.' },
-            ].map((b) => (
-              <div key={b.title} className="card" style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '40px', marginBottom: 'var(--space-4)' }}>{b.icon}</div>
-                <h4 style={{ marginBottom: 'var(--space-2)' }}>{b.title}</h4>
-                <p style={{ fontSize: 'var(--text-sm)' }}>{b.desc}</p>
+              { Icon: Shield, title: 'Zero Side Effects', desc: 'Safe for children, pregnant women, nursing mothers, and the elderly.' },
+              { Icon: Target, title: 'Permanent Cure', desc: 'Removes the root cause of disease rather than managing symptoms indefinitely.' },
+              { Icon: Leaf, title: 'Natural Healing', desc: "Highly diluted natural remedies that stimulate the body's own healing intelligence." },
+            ].map(({ Icon, title, desc }) => (
+              <div key={title} className="card" style={{ textAlign: 'center' }}>
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 'var(--space-4)', color: 'var(--clr-forest)' }}>
+                  <Icon size={40} />
+                </div>
+                <h4 style={{ marginBottom: 'var(--space-2)' }}>{title}</h4>
+                <p style={{ fontSize: 'var(--text-sm)' }}>{desc}</p>
               </div>
             ))}
           </div>
@@ -99,3 +100,4 @@ export default function ServicesPage() {
     </>
   );
 }
+

@@ -140,26 +140,69 @@
   margin-top: var(--space-4);
 }
 
-.philosophyCard {
+/* ─── Philosophy tiles (bold 2026 redesign) ─────────────── */
+.philosophyGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.philosophyTile {
+  background: var(--clr-forest);
+  color: var(--clr-white);
+  padding: var(--space-8);
   display: flex;
+  flex-direction: column;
   gap: var(--space-4);
-  padding: var(--space-5);
-  border-left: 3px solid var(--clr-sage);
-  background: var(--clr-sage-pale);
-  border-radius: var(--radius-md);
+  transition: background var(--transition-base);
+}
+.philosophyTile:hover { background: hsl(152,38%,22%); }
+
+.philosophyTileAlt {
+  background: var(--surface-01, hsl(42,28%,95%));
+}
+.philosophyTileAlt:hover { background: var(--surface-02, hsl(42,20%,90%)); }
+.philosophyTileAlt .philosophyTileNum { color: var(--clr-forest); opacity: 0.15; }
+.philosophyTileAlt .philosophyTileTitle { color: var(--clr-forest); }
+.philosophyTileAlt .philosophyTileBody { color: var(--clr-text); }
+.philosophyTileAlt .philosophyTileIcon { color: var(--clr-sage); }
+
+.philosophyTileHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.philosophyIcon {
-  font-size: 24px;
-  flex-shrink: 0;
-  margin-top: 2px;
+.philosophyTileNum {
+  font-family: var(--font-heading);
+  font-size: var(--text-4xl);
+  font-weight: 700;
+  color: rgba(255,255,255,0.15);
+  line-height: 1;
 }
 
-.philosophyText {
-  margin: 0;
+.philosophyTileIcon {
+  color: var(--clr-gold);
+}
+
+.philosophyTileTitle {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--clr-white);
+  line-height: 1.2;
+}
+
+.philosophyTileBody {
   font-size: var(--text-sm);
+  color: rgba(255,255,255,0.7);
   line-height: 1.7;
-  color: var(--clr-text);
+}
+
+@media (max-width: 640px) {
+  .philosophyGrid { grid-template-columns: 1fr; }
 }
 
 /* ─── Timeline ───────────────────────────────────────────────  */

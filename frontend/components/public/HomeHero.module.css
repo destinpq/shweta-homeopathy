@@ -139,6 +139,75 @@
   background: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
 }
 
+/* ─── Doctor Presence Card ──────────────────────────────────────── */
+.doctorCard {
+  position: absolute;
+  bottom: var(--space-6);
+  left: calc(-1 * var(--space-4));
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.22);
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  z-index: 3;
+  max-width: 280px;
+}
+
+.doctorCardAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid var(--clr-gold);
+}
+
+.doctorCardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.doctorCardName {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--clr-forest);
+  line-height: 1.2;
+}
+
+.doctorCardCreds {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.doctorCredPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--clr-sage);
+  background: var(--clr-sage-pale);
+  border-radius: var(--radius-full);
+  padding: 2px 7px;
+  line-height: 1.4;
+}
+
+.doctorCardMeta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: var(--clr-text-lt);
+  margin-top: 2px;
+}
+
 /* ─── Floating credential badges ─────────────────────────────── */
 .floatBadge {
   position: absolute;
@@ -216,7 +285,7 @@
   .textSide { align-items: center; }
   .photoSide { order: -1; }
   .photoFrame { max-width: 320px; }
-  .floatBadge, .floatBadge2 { display: none; }
+  .floatBadge, .floatBadge2, .doctorCard { display: none; }
   .stats { justify-content: center; }
   .scrollHint { display: none; }
 }

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Phone, MessageCircle, CalendarCheck, MapPin } from 'lucide-react';
 import styles from './Footer.module.css';
 
 const services = [
@@ -25,6 +26,43 @@ export default function Footer() {
   const year = new Date().getFullYear();
   return (
     <footer className={styles.footer}>
+      {/* ── Action Dock ── */}
+      <div className={styles.dock}>
+        <div className="container">
+          <div className={styles.dockGrid}>
+            <a href="tel:+916284411753" className={`${styles.dockTile} glass-dark`}>
+              <Phone size={22} className={styles.dockIcon} />
+              <span className={styles.dockLabel}>Call Us</span>
+              <span className={styles.dockSub}>+91 62844 11753</span>
+            </a>
+            <a
+              href="https://wa.me/916284411753"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${styles.dockTile} glass-dark`}
+            >
+              <MessageCircle size={22} className={styles.dockIcon} />
+              <span className={styles.dockLabel}>WhatsApp</span>
+              <span className={styles.dockSub}>Chat now</span>
+            </a>
+            <Link href="/appointment" className={`${styles.dockTile} ${styles.dockTileGold}`}>
+              <CalendarCheck size={22} className={styles.dockIcon} />
+              <span className={styles.dockLabel}>Book Appointment</span>
+              <span className={styles.dockSub}>Online or In-Clinic</span>
+            </Link>
+            <a
+              href="https://maps.google.com/?q=Patiala+Road+Zirakpur+140603"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${styles.dockTile} glass-dark`}
+            >
+              <MapPin size={22} className={styles.dockIcon} />
+              <span className={styles.dockLabel}>Directions</span>
+              <span className={styles.dockSub}>Zirakpur Clinic</span>
+            </a>
+          </div>
+        </div>
+      </div>
       <div className="container">
         <div className={styles.grid}>
           {/* Brand */}

@@ -1,9 +1,11 @@
 'use client';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Search } from 'lucide-react';
 import styles from './Header.module.css';
+import CommandPalette from '@/components/public/CommandPalette';
 
 const NAV_LINKS = [
   { label: 'Home', href: '/' },
@@ -18,7 +20,21 @@ const NAV_LINKS = [
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [paletteOpen, setPaletteOpen] = useState(false);
   const pathname = usePathname();
+
+  /* ⌘K / Ctrl+K shortcut */
+  const handleGlobalKey = useCallback((e: KeyboardEvent) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      setPaletteOpen((v) => !v);
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleGlobalKey);
+    return () => document.removeEventListener('keydown', handleGlobalKey);
+  }, [handleGlobalKey]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -30,7 +46,8 @@ export default function Header() {
   useEffect(() => { setMenuOpen(false); }, [pathname]);
 
   return (
-    <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
+    <>
+      <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
       <div className={`container ${styles.inner}`}>
         {/* Logo */}
         <Link href="/" className={styles.logo}>
@@ -59,6 +76,17 @@ export default function Header() {
             );
           })}
         </nav>
+
+        {/* Search trigger */}
+        <button
+          className={styles.searchBtn}
+          onClick={() => setPaletteOpen(true)}
+          aria-label="Search (⌘K)"
+          title="Search (⌘K)"
+        >
+          <Search size={18} />
+          <span className={styles.searchKbd}>⌘K</span>
+        </button>
 
         {/* CTA */}
         <Link href="/appointment" className={`btn btn-gold ${styles.ctaBtn}`} id="header-book-btn">
@@ -126,5 +154,8 @@ export default function Header() {
         )}
       </AnimatePresence>
     </header>
+
+    <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} />
+    </>
   );
 }

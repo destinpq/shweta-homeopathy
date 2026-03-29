@@ -2,7 +2,10 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { buildMetadata } from '@/lib/seo';
+import { Leaf, Dna, Handshake, Book, BookOpen } from 'lucide-react';
 import BentoCredentials from '@/components/public/BentoCredentials';
+import ClinicFootprintBand from '@/components/public/ClinicFootprintBand';
+import ConsultationReel from '@/components/public/ConsultationReel';
 import styles from './about.module.css';
 
 export const metadata: Metadata = buildMetadata({
@@ -25,10 +28,30 @@ const timeline = [
 ];
 
 const philosophy = [
-  { icon: '🧬', text: 'Every patient is a unique individual — the prescription must match the person, not the disease label.' },
-  { icon: '🌱', text: 'Homeopathy aims to remove the root cause of suffering, not suppress symptoms.' },
-  { icon: '🤝', text: 'The therapeutic relationship built over time is as healing as the remedy itself.' },
-  { icon: '📚', text: 'Classical prescribing — one well-chosen constitutional remedy — is the foundation of deep healing.' },
+  {
+    number: '01',
+    title: 'Person, Not Disease',
+    icon: <Dna size={22} />,
+    body: 'Every patient is a unique individual — the prescription must match the person, not their disease label. No two people receive the same remedy.',
+  },
+  {
+    number: '02',
+    title: 'Root Cause Healing',
+    icon: <Leaf size={22} />,
+    body: 'Homeopathy aims to remove the root cause of suffering, not suppress symptoms. When the root is addressed, the expression at every level dissolves.',
+  },
+  {
+    number: '03',
+    title: 'Therapeutic Relationship',
+    icon: <Handshake size={22} />,
+    body: 'The trust and understanding built over time is as healing as the remedy itself. We listen deeply before we prescribe.',
+  },
+  {
+    number: '04',
+    title: 'Classical Prescribing',
+    icon: <BookOpen size={22} />,
+    body: 'One well-chosen constitutional remedy — the foundation of deep, lasting healing. Not polypharmacy or protocol prescribing.',
+  },
 ];
 
 export default function AboutPage() {
@@ -38,7 +61,7 @@ export default function AboutPage() {
       <section className={styles.hero}>
         <div className={`container ${styles.heroInner}`}>
           <div className={styles.heroText}>
-            <div className={styles.heroBadge}>🌿 About the Doctor</div>
+            <div className={styles.heroBadge}><Leaf size={16} style={{ marginRight: '6px' }} /> About the Doctor</div>
             <h1 className={styles.heroTitle}>Dr. Shweta Goyal</h1>
             <p className={styles.heroSub}>
               Classical Homeopath with 15+ years of practice across Zirakpur, Budhlada, and online — treating patients worldwide.
@@ -66,6 +89,9 @@ export default function AboutPage() {
 
       {/* ── Bento Credentials ── */}
       <BentoCredentials />
+
+      {/* ── Clinic Footprint Band ── */}
+      <ClinicFootprintBand />
 
       {/* ── Bio & Timeline ── */}
       <section className={styles.bioSection}>
@@ -114,12 +140,19 @@ export default function AboutPage() {
 
               {/* Philosophy */}
               <div>
-                <h3 style={{ marginBottom: 'var(--space-4)' }}>Treatment Philosophy</h3>
+                <h3 style={{ marginBottom: 'var(--space-6)' }}>Treatment Philosophy</h3>
                 <div className={styles.philosophyGrid}>
-                  {philosophy.map((p, i) => (
-                    <div key={i} className={styles.philosophyCard}>
-                      <span className={styles.philosophyIcon}>{p.icon}</span>
-                      <p className={styles.philosophyText}>{p.text}</p>
+                  {philosophy.map((p) => (
+                    <div
+                      key={p.number}
+                      className={`${styles.philosophyTile} ${parseInt(p.number) % 2 === 0 ? styles.philosophyTileAlt : ''}`}
+                    >
+                      <div className={styles.philosophyTileHead}>
+                        <span className={styles.philosophyTileNum}>{p.number}</span>
+                        <span className={styles.philosophyTileIcon}>{p.icon}</span>
+                      </div>
+                      <h4 className={styles.philosophyTileTitle}>{p.title}</h4>
+                      <p className={styles.philosophyTileBody}>{p.body}</p>
                     </div>
                   ))}
                 </div>
@@ -145,6 +178,9 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      {/* ── Consultation Reel ── */}
+      <ConsultationReel />
 
       {/* ── CTA ── */}
       <section className={styles.ctaStrip}>

@@ -3,7 +3,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
+import { Leaf, Award, Globe, GraduationCap, Stethoscope, Clock } from 'lucide-react';
 import styles from './HomeHero.module.css';
+
+const doctorCredentials = [
+  { icon: <GraduationCap size={13} />, text: 'BHMS Gold Medalist' },
+  { icon: <Stethoscope size={13} />, text: 'MD (Homeopathy)' },
+  { icon: <Globe size={13} />, text: 'PG · IACH Greece' },
+];
 
 interface Stat { number: string; label: string; }
 interface Props { stats: Stat[]; }
@@ -31,7 +38,7 @@ export default function HomeHero({ stats }: Props) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25, duration: 0.45 }}
           >
-            <span>🌿</span> Established Practice · Classical Homeopathy
+            <Leaf size={16} style={{ marginRight: '6px' }} /> Established Practice · Classical Homeopathy
           </motion.div>
 
           <h1 className={styles.title}>
@@ -105,13 +112,45 @@ export default function HomeHero({ stats }: Props) {
             </div>
           </div>
 
+          {/* Doctor Presence Card */}
+          <motion.div
+            className={styles.doctorCard}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.65, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <div className={styles.doctorCardAvatar}>
+              <Image
+                src="/Clinic Pictures/IMG-20240615-WA0219.jpg"
+                alt="Dr. Shweta Goyal"
+                width={44}
+                height={44}
+                style={{ objectFit: 'cover', objectPosition: 'center top', borderRadius: '50%' }}
+              />
+            </div>
+            <div className={styles.doctorCardInfo}>
+              <span className={styles.doctorCardName}>Dr. Shweta Goyal</span>
+              <div className={styles.doctorCardCreds}>
+                {doctorCredentials.map((c) => (
+                  <span key={c.text} className={styles.doctorCredPill}>
+                    {c.icon}{c.text}
+                  </span>
+                ))}
+              </div>
+              <div className={styles.doctorCardMeta}>
+                <Clock size={12} />
+                <span>15+ Years · 10,000+ Patients</span>
+              </div>
+            </div>
+          </motion.div>
+
           {/* Floating badge — Gold Medal */}
           <motion.div
             className={styles.floatBadge}
             animate={{ y: [0, -8, 0] }}
             transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
           >
-            <span className={styles.floatIcon}>🏅</span>
+            <span className={styles.floatIcon}><Award size={24} /></span>
             <div>
               <span className={styles.floatLine1}>Gold Medalist</span>
               <span className={styles.floatLine2}>Panjab University</span>
@@ -124,7 +163,7 @@ export default function HomeHero({ stats }: Props) {
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
           >
-            <span className={styles.floatIcon}>🌍</span>
+            <span className={styles.floatIcon}><Globe size={24} /></span>
             <div>
               <span className={styles.floatLine1}>PG · IACH Greece</span>
               <span className={styles.floatLine2}>Classical Homeopathy</span>

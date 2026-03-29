@@ -1,0 +1,68 @@
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ribbon {
+  overflow: hidden;
+  background: var(--clr-forest);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-block: var(--space-3);
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  animation: marquee 26s linear infinite;
+}
+
+.ribbon:hover .track {
+  animation-play-state: paused;
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-inline: var(--space-6);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.icon {
+  color: var(--clr-gold);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.text {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.01em;
+}
+
+.dot {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  background: var(--clr-gold);
+  border-radius: 50%;
+  margin-left: var(--space-4);
+  opacity: 0.5;
+}
+
+/* On desktop: slow down but keep scrolling; on very large screens centre */
+@media (min-width: 1400px) {
+  .track {
+    animation-duration: 34s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track { animation: none; }
+  .ribbon { overflow: auto; }
+  .track { width: 100%; flex-wrap: wrap; justify-content: center; }
+}

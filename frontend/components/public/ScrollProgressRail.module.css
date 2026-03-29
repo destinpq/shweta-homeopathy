@@ -1,0 +1,15 @@
+.rail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 300;
+  background: linear-gradient(
+    90deg,
+    var(--clr-forest) 0%,
+    var(--clr-sage) 50%,
+    var(--clr-gold) 100%
+  );
+  transform-origin: 0%;
+}

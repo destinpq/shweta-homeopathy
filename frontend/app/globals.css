@@ -460,3 +460,41 @@ p { color: var(--clr-text-mid); line-height: 1.75; }
 @media (max-width: 768px) {
   .admin-layout { grid-template-columns: 1fr; }
 }
+
+/* ─── Surface token system ────────────────────────────────── */
+:root {
+  --surface-01:    hsl(152, 20%, 97%);
+  --surface-02:    hsl(148, 18%, 94%);
+  --surface-03:    hsl(142, 16%, 90%);
+  --surface-stone: hsl(40,  12%, 96%);
+}
+
+/* ─── Micro-reveal utilities ──────────────────────────────── */
+.reveal-text {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.reveal-text.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Depth card hover lift ───────────────────────────────── */
+.depth-card {
+  transition: box-shadow var(--transition-base), transform var(--transition-base);
+}
+.depth-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ─── Motion gentle accessibility ────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

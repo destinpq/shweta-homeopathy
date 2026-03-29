@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
+import { Award, Microscope, Globe } from 'lucide-react';
 import styles from './BentoCredentials.module.css';
 
 function AnimatedCounter({ to, suffix = '' }: { to: number; suffix?: string }) {
@@ -93,7 +94,7 @@ export default function BentoCredentials() {
             variants={cellVariants}
             custom={1}
           >
-            <span className={styles.credIcon}>🏅</span>
+            <span className={styles.credIcon}><Award size={32} /></span>
             <h4 className={styles.credTitle}>Gold Medalist</h4>
             <p className={styles.credSub}>BHMS — Panjab University</p>
           </motion.div>
@@ -104,7 +105,7 @@ export default function BentoCredentials() {
             variants={cellVariants}
             custom={2}
           >
-            <span className={styles.credIcon}>🔬</span>
+            <span className={styles.credIcon}><Microscope size={32} /></span>
             <h4 className={styles.credTitle}>MD (Hom)</h4>
             <p className={styles.credSub}>Advanced Specialization in Homoeopathy</p>
           </motion.div>
@@ -153,7 +154,7 @@ export default function BentoCredentials() {
             variants={cellVariants}
             custom={6}
           >
-            <span className={styles.credIcon}>🌍</span>
+            <span className={styles.credIcon}><Globe size={32} /></span>
             <h4 className={styles.credTitle}>PG · IACH Greece</h4>
             <p className={styles.credSub}>World&apos;s premier institute for classical homeopathy</p>
           </motion.div>
