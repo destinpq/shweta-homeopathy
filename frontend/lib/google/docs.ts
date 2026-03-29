@@ -17,62 +17,33 @@ export async function createSessionNoteDoc(opts: {
   folderId: string;
 }): Promise<{ docId: string; url: string }> {
   const auth = getAuth();
-  const docs = google.docs({ version: 'v1', auth });
   const drive = google.drive({ version: 'v3', auth });
+  const { Readable } = await import('stream');
+  const stream = Readable.from(Buffer.from(opts.content, 'utf8'));
 
-  const doc = await docs.documents.create({ requestBody: { title: opts.title } });
-  const docId = doc.data.documentId as string;
-
-  // Move to target folder
-  const file = await drive.files.get({ fileId: docId, fields: 'parents' });
-  const prevParents = (file.data.parents || []).join(',');
-  await drive.files.update({
-    fileId: docId,
-    addParents: opts.folderId,
-    removeParents: prevParents,
-    fields: 'id,parents',
-  });
-
-  // Insert content
-  await docs.documents.batchUpdate({
-    documentId: docId,
+  const res = await drive.files.create({
     requestBody: {
-      requests: [
-        {
-          insertText: {
-            location: { index: 1 },
-            text: opts.content,
-          },
-        },
-      ],
+      name: opts.title,
+      mimeType: 'application/vnd.google-apps.document',
+      parents: [opts.folderId],
     },
+    media: { mimeType: 'text/plain', body: stream },
+    fields: 'id',
   });
 
+  const docId = res.data.id as string;
   return { docId, url: `https://docs.google.com/document/d/${docId}/edit` };
 }
 
 export async function updateSessionNoteDoc(docId: string, content: string) {
   const auth = getAuth();
-  const docs = google.docs({ version: 'v1', auth });
+  const drive = google.drive({ version: 'v3', auth });
+  const { Readable } = await import('stream');
+  const stream = Readable.from(Buffer.from(content, 'utf8'));
 
-  // Get current doc length
-  const doc = await docs.documents.get({ documentId: docId });
-  const endIndex = doc.data.body?.content?.at(-1)?.endIndex ?? 2;
-
-  await docs.documents.batchUpdate({
-    documentId: docId,
-    requestBody: {
-      requests: [
-        {
-          deleteContentRange: {
-            range: { startIndex: 1, endIndex: endIndex - 1 },
-          },
-        },
-        {
-          insertText: { location: { index: 1 }, text: content },
-        },
-      ],
-    },
+  await drive.files.update({
+    fileId: docId,
+    media: { mimeType: 'text/plain', body: stream },
   });
 }
 
@@ -149,30 +120,24 @@ export async function createClientDoc(opts: {
   folderId: string;
 }): Promise<{ docId: string; url: string }> {
   const auth  = getAuth();
-  const docs  = google.docs({ version: 'v1', auth });
   const drive = google.drive({ version: 'v3', auth });
+  const { Readable } = await import('stream');
 
-  const title = `Client Notes — ${opts.clientName} [${opts.clientId}]`;
-  const doc   = await docs.documents.create({ requestBody: { title } });
-  const docId = doc.data.documentId as string;
-
-  // Move into client's folder
-  const file    = await drive.files.get({ fileId: docId, fields: 'parents' });
-  const parents = (file.data.parents || []).join(',');
-  await drive.files.update({
-    fileId: docId,
-    addParents: opts.folderId,
-    removeParents: parents,
-    fields: 'id,parents',
-  });
-
-  // Insert header
+  const title  = `Client Notes — ${opts.clientName} [${opts.clientId}]`;
   const header = `CLIENT NOTES\n${opts.clientName} — ID: ${opts.clientId}\n${'─'.repeat(50)}\n\n`;
-  await docs.documents.batchUpdate({
-    documentId: docId,
-    requestBody: { requests: [{ insertText: { location: { index: 1 }, text: header } }] },
+  const stream = Readable.from(Buffer.from(header, 'utf8'));
+
+  const res = await drive.files.create({
+    requestBody: {
+      name: title,
+      mimeType: 'application/vnd.google-apps.document',
+      parents: [opts.folderId],
+    },
+    media: { mimeType: 'text/plain', body: stream },
+    fields: 'id',
   });
 
+  const docId = res.data.id as string;
   return { docId, url: `https://docs.google.com/document/d/${docId}/edit` };
 }
 
@@ -181,18 +146,23 @@ export async function createClientDoc(opts: {
  */
 export async function appendToClientDoc(docId: string, text: string, sessionDate?: string): Promise<void> {
   const auth = getAuth();
-  const docs = google.docs({ version: 'v1', auth });
+  const drive = google.drive({ version: 'v3', auth });
 
-  const doc      = await docs.documents.get({ documentId: docId });
-  const endIndex = doc.data.body?.content?.at(-1)?.endIndex ?? 2;
+  // Export current content, append new entry, re-upload
+  const existing = await drive.files.export(
+    { fileId: docId, mimeType: 'text/plain' },
+    { responseType: 'text' },
+  );
+  const currentText = (existing.data as string) || '';
 
   const dateStr = sessionDate || new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
   const entry   = `\n── Session: ${dateStr} ──\n${text}\n`;
+  const updated = currentText + entry;
 
-  await docs.documents.batchUpdate({
-    documentId: docId,
-    requestBody: {
-      requests: [{ insertText: { location: { index: endIndex - 1 }, text: entry } }],
-    },
+  const { Readable } = await import('stream');
+  const stream = Readable.from(Buffer.from(updated, 'utf8'));
+  await drive.files.update({
+    fileId: docId,
+    media: { mimeType: 'text/plain', body: stream },
   });
 }
