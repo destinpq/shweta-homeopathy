@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { buildMetadata } from '@/lib/seo';
 
 export const metadata: Metadata = buildMetadata({
@@ -65,9 +66,10 @@ export default function AboutPage() {
                 fontSize: '80px',
                 gap: 'var(--space-4)',
                 border: '1px solid var(--clr-border)',
+                position: 'relative',
+                overflow: 'hidden',
               }}>
-                <span>𓆸</span>
-                <p style={{ fontFamily: 'var(--font-heading)', color: 'var(--clr-sage)', fontSize: 'var(--text-lg)', fontWeight: 600 }}>Dr. Shweta Goyal</p>
+                <Image src="/Clinic Pictures/IMG-20240615-WA0085.jpg" alt="Dr. Shweta Goyal" fill style={{ objectFit: 'cover' }} />
               </div>
               <div className="card" style={{ marginTop: 'var(--space-4)', textAlign: 'center' }}>
                 <p style={{ fontSize: 'var(--text-sm)', color: 'var(--clr-text-mid)', marginBottom: 'var(--space-4)' }}>

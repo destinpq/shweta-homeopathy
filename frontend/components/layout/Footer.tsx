@@ -79,12 +79,14 @@ export default function Footer() {
           {/* CTA */}
           <div className={styles.ctaCol}>
             <h4 className={styles.colTitle}>Book a Consultation</h4>
-            <p className={styles.ctaText}>
-              In-clinic or online. Free 10-minute introductory call available.
-            </p>
-            <Link href="/appointment" className="btn btn-gold btn-lg" style={{ display: 'inline-flex', marginTop: '1rem' }}>
-              Request Appointment
-            </Link>
+            <div className={styles.ctaInner}>
+              <p className={styles.ctaText}>
+                In-clinic or online. Free 10-minute introductory call available.
+              </p>
+              <Link href="/appointment" className="btn btn-gold" style={{ display: 'inline-flex' }}>
+                Request Appointment
+              </Link>
+            </div>
           </div>
         </div>
 

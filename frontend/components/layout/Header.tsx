@@ -1,6 +1,8 @@
 'use client';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 import styles from './Header.module.css';
 
 const NAV_LINKS = [
@@ -16,12 +18,16 @@ const NAV_LINKS = [
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  // Close menu on route change
+  useEffect(() => { setMenuOpen(false); }, [pathname]);
 
   return (
     <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
@@ -39,22 +45,30 @@ export default function Header() {
 
         {/* Desktop nav */}
         <nav className={styles.nav} aria-label="Main navigation">
-          {NAV_LINKS.map((l) => (
-            <Link key={l.href} href={l.href} className={styles.navLink}>
-              {l.label}
-            </Link>
-          ))}
+          {NAV_LINKS.map((l) => {
+            const isActive = pathname === l.href || (l.href !== '/' && pathname.startsWith(l.href));
+            return (
+              <Link
+                key={l.href}
+                href={l.href}
+                className={`${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}
+              >
+                {l.label}
+                <span className={styles.navUnderline} />
+              </Link>
+            );
+          })}
         </nav>
 
         {/* CTA */}
-        <Link href="/appointment" className="btn btn-primary" id="header-book-btn">
+        <Link href="/appointment" className={`btn btn-gold ${styles.ctaBtn}`} id="header-book-btn">
           Book Appointment
         </Link>
 
         {/* Mobile toggle */}
         <button
           className={styles.menuBtn}
-          onClick={() => setMenuOpen(!menuOpen)}
+          onClick={() => setMenuOpen((v) => !v)}
           aria-label="Toggle menu"
           aria-expanded={menuOpen}
         >
@@ -64,24 +78,53 @@ export default function Header() {
         </button>
       </div>
 
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div className={styles.mobileMenu}>
-          {NAV_LINKS.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className={styles.mobileLink}
-              onClick={() => setMenuOpen(false)}
+      {/* Mobile menu — Framer Motion slide-down */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            className={styles.mobileMenu}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {NAV_LINKS.map((l, i) => {
+              const isActive = pathname === l.href || (l.href !== '/' && pathname.startsWith(l.href));
+              return (
+                <motion.div
+                  key={l.href}
+                  initial={{ opacity: 0, x: -16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.04, duration: 0.25 }}
+                >
+                  <Link
+                    href={l.href}
+                    className={`${styles.mobileLink} ${isActive ? styles.mobileLinkActive : ''}`}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {l.label}
+                  </Link>
+                </motion.div>
+              );
+            })}
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: NAV_LINKS.length * 0.04 + 0.05 }}
+              style={{ paddingTop: 'var(--space-2)' }}
             >
-              {l.label}
-            </Link>
-          ))}
-          <Link href="/appointment" className="btn btn-primary" onClick={() => setMenuOpen(false)}>
-            Book Appointment
-          </Link>
-        </div>
-      )}
+              <Link
+                href="/appointment"
+                className="btn btn-gold"
+                style={{ width: '100%', justifyContent: 'center' }}
+                onClick={() => setMenuOpen(false)}
+              >
+                Book Appointment
+              </Link>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

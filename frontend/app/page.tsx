@@ -5,6 +5,11 @@ import { testimonials, faqs } from '@/lib/content';
 import { buildDoctorSchema, buildFAQSchema } from '@/lib/seo';
 import { getLatestBlogs } from '@/lib/blog';
 import BlogCard from '@/components/public/BlogCard';
+import HomeHero from '@/components/public/HomeHero';
+import BentoCredentials from '@/components/public/BentoCredentials';
+import VideoSection from '@/components/public/VideoSection';
+import GoogleReviewWidget from '@/components/public/GoogleReviewWidget';
+import FaqAccordion from '@/components/public/FaqAccordion';
 import styles from './page.module.css';
 
 export const metadata: Metadata = {
@@ -43,47 +48,11 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* Schema.org */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(doctorSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
-      {/* ── Hero ── */}
-      <section className={styles.hero}>
-        <div className={styles.heroOverlay} />
-        <div className={`container ${styles.heroContent}`}>
-          <div className={styles.heroBadge}>
-            <span>🌿</span> Established Practice · Classical Homeopathy
-          </div>
-          <h1 className={styles.heroTitle}>
-            Healing at the Root.<br />
-            <em>Naturally.</em>
-          </h1>
-          <p className={styles.heroSubtitle}>
-            Dr. Shweta Goyal — BHMS Gold Medalist · MD (Hom) · PG IACH Greece<br />
-            Expert homeopathic care for chronic & complex conditions.
-          </p>
-          <div className={styles.heroCtas}>
-            <Link href="/appointment" className="btn btn-gold btn-lg" id="hero-book-btn">
-              Request Appointment
-            </Link>
-            <Link href="/about" className={`btn btn-lg ${styles.heroOutlineBtn}`}>
-              Meet Dr. Shweta
-            </Link>
-          </div>
-          <div className={styles.heroStats}>
-            {stats.map((s) => (
-              <div key={s.label} className={styles.stat}>
-                <span className={styles.statNum}>{s.number}</span>
-                <span className={styles.statLabel}>{s.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className={styles.heroScrollHint}>
-          <span>Scroll to explore</span>
-          <div className={styles.scrollArrow} />
-        </div>
-      </section>
+      {/* ── Split-screen Hero ── */}
+      <HomeHero stats={stats} />
 
       {/* ── Trust Strip ── */}
       <section className={styles.trustStrip}>
@@ -105,48 +74,12 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Doctor intro ── */}
-      <section className={`section ${styles.aboutSection}`}>
-        <div className="container">
-          <div className={styles.aboutGrid}>
-            <div className={styles.aboutImg}>
-              <div className={styles.imgPlaceholder}>
-                <span>𓆸</span>
-                <p>Dr. Shweta Goyal</p>
-              </div>
-              <div className={styles.imgBadge}>
-                <span className={styles.imgBadgeNum}>Gold</span>
-                <span className={styles.imgBadgeLabel}>Medalist</span>
-              </div>
-            </div>
-            <div className={styles.aboutText}>
-              <span className="section-label">About the Doctor</span>
-              <h2>A Luminary in Classical Homeopathy</h2>
-              <div className="divider" />
-              <p>
-                Dr. Shweta Goyal is a distinguished homeopathic physician with a rare combination of academic excellence
-                and deep clinical experience. She graduated as a <strong>Gold Medalist in BHMS from Panjab University</strong>,
-                followed by an MD in Homeopathy, and a post-graduate qualification from the
-                <strong> International Academy of Classical Homeopathy (IACH), Greece</strong> — one of the world&apos;s foremost
-                institutions for classical homeopathic training.
-              </p>
-              <p>
-                Her approach is rooted in the conviction that true healing means removing the root causes of disease —
-                not merely managing symptoms. Every patient is treated as a unique individual with a carefully individualized prescription.
-              </p>
-              <div className={styles.credsList}>
-                {['BHMS — Gold Medalist, Panjab University', 'MD (Homoeopathy)', 'PG — IACH, Greece', 'DNHE, Delhi'].map((c) => (
-                  <div key={c} className={styles.credItem}>
-                    <span className={styles.credDot} />
-                    {c}
-                  </div>
-                ))}
-              </div>
-              <Link href="/about" className="btn btn-primary">Read Full Profile</Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ── Bento Credentials Grid ── */}
+      <BentoCredentials />
+
+      {/* ── Meet the Doctor Video ── */}
+      {/* REPLACE: pass videoUrl="https://www.youtube.com/embed/YOUR_VIDEO_ID" when client provides the video link */}
+      <VideoSection />
 
       {/* ── Conditions Grid ── */}
       <section className={`section bg-sage-pale ${styles.conditionsSection}`}>
@@ -158,7 +91,7 @@ export default async function HomePage() {
           </div>
           <div className={styles.conditionsGrid}>
             {conditions.map((c) => (
-              <Link key={c.slug} href={`/conditions/${c.slug}`} className={styles.conditionCard}>
+              <Link key={c.slug} href={`/conditions/${c.slug}`} className={`${styles.conditionCard} glass-card`}>
                 <span className={styles.condIcon}>{c.icon}</span>
                 <h3 className={styles.condName}>{c.name}</h3>
                 <p className={styles.condDesc}>{c.shortDesc}</p>
@@ -170,16 +103,16 @@ export default async function HomePage() {
       </section>
 
       {/* ── Why Choose ── */}
-      <section className="section">
+      <section className={`section ${styles.whySection}`}>
         <div className="container">
           <div className={styles.sectionHeader}>
             <span className="section-label">Why Choose Homeopathy</span>
             <h2>Healing That Goes to the Root</h2>
             <p>Homeopathy is not just alternative medicine — it is a complete system of medicine that transforms health permanently.</p>
           </div>
-          <div className="grid-3" style={{ marginTop: '3rem' }}>
+          <div className={`grid-3 ${styles.whyGrid}`}>
             {whyChoose.map((w) => (
-              <div key={w.title} className={`card ${styles.whyCard}`}>
+              <div key={w.title} className={`glass-card ${styles.whyCard}`}>
                 <div className={styles.whyIcon}>{w.icon}</div>
                 <h4>{w.title}</h4>
                 <p>{w.desc}</p>
@@ -189,17 +122,17 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Process ── */}
-      <section className="section bg-cream">
+      {/* ── Appointment Flow ── */}
+      <section className={`section ${styles.processSection}`}>
         <div className="container">
           <div className={styles.sectionHeader}>
             <span className="section-label">How It Works</span>
-            <h2>What to Expect</h2>
-            <p>A simple, patient-centered process designed around your healing journey.</p>
+            <h2>Your Healing Journey in 4 Steps</h2>
+            <p>A simple, patient-centered process designed around your healing — not a one-size-fits-all solution.</p>
           </div>
           <div className={styles.processGrid}>
             {process.map((p, i) => (
-              <div key={p.step} className={styles.processItem}>
+              <div key={p.step} className={`glass-card ${styles.processItem}`}>
                 <div className={styles.processStep}>{p.step}</div>
                 {i < process.length - 1 && <div className={styles.processLine} />}
                 <h4 className={styles.processTitle}>{p.title}</h4>
@@ -207,11 +140,16 @@ export default async function HomePage() {
               </div>
             ))}
           </div>
+          <div style={{ textAlign: 'center', marginTop: 'var(--space-10)' }}>
+            <Link href="/appointment" className="btn btn-gold btn-lg">
+              Start Your Journey →
+            </Link>
+          </div>
         </div>
       </section>
 
       {/* ── Testimonials ── */}
-      <section className="section">
+      <section className={`section bg-sage-pale ${styles.testimonialsSection}`}>
         <div className="container">
           <div className={styles.sectionHeader}>
             <span className="section-label">Patient Stories</span>
@@ -219,9 +157,10 @@ export default async function HomePage() {
           </div>
           <div className={styles.testimonialGrid}>
             {testimonials.slice(0, 3).map((t) => (
-              <div key={t.id} className={`card ${styles.testimonialCard}`}>
+              <div key={t.id} className={`glass-card ${styles.testimonialCard}`}>
+                <div className={styles.quoteIconLg}>&ldquo;</div>
                 <div className={styles.stars}>{'★'.repeat(t.rating)}</div>
-                <p className={styles.testimonialText}>&ldquo;{t.text}&rdquo;</p>
+                <p className={styles.testimonialText}>{t.text}</p>
                 <div className={styles.testimonialAuthor}>
                   <div className={styles.authorAvatar}>{t.name[0]}</div>
                   <div>
@@ -232,28 +171,28 @@ export default async function HomePage() {
               </div>
             ))}
           </div>
-          <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
-            <Link href="/testimonials" className="btn btn-outline">Read All Testimonials</Link>
+          {/* Google Review Widget */}
+          {/* REPLACE: add placeId="ChIJxxxxxxxxxxxxxxxx" and reviewsUrl once client confirms Google Business listing */}
+          <div className={styles.reviewWidgetWrap}>
+            <GoogleReviewWidget reviewCount={200} rating={4.9} />
+          </div>
+          <div style={{ textAlign: 'center', marginTop: 'var(--space-6)' }}>
+            <Link href="/testimonials" className="btn btn-outline">Read All Patient Stories</Link>
           </div>
         </div>
       </section>
 
       {/* ── FAQ Preview ── */}
-      <section className="section bg-sage-pale">
+      <section className={`section ${styles.faqSection}`}>
         <div className="container">
           <div className={styles.sectionHeader}>
             <span className="section-label">Common Questions</span>
             <h2>Frequently Asked Questions</h2>
           </div>
-          <div className={styles.faqGrid}>
-            {faqs.slice(0, 4).map((f) => (
-              <div key={f.question} className={`card ${styles.faqCard}`}>
-                <h4 className={styles.faqQ}>{f.question}</h4>
-                <p className={styles.faqA}>{f.answer}</p>
-              </div>
-            ))}
+          <div className={styles.faqWrap}>
+            <FaqAccordion />
           </div>
-          <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+          <div style={{ textAlign: 'center', marginTop: 'var(--space-8)' }}>
             <Link href="/faq" className="btn btn-outline">All FAQs</Link>
           </div>
         </div>
@@ -261,7 +200,7 @@ export default async function HomePage() {
 
       {/* ── Blog Preview ── */}
       {latestPosts.length > 0 && (
-        <section className="section">
+        <section className={`section bg-sage-pale`}>
           <div className="container">
             <div className={styles.sectionHeader}>
               <span className="section-label">From the Blog</span>
@@ -269,11 +208,11 @@ export default async function HomePage() {
               <p>Insights on homeopathy, wellness, and healing from Dr. Shweta&apos;s practice.</p>
             </div>
             <div className={styles.blogPreviewGrid}>
-              {latestPosts.map(post => (
+              {latestPosts.map((post) => (
                 <BlogCard key={post.id} post={post} />
               ))}
             </div>
-            <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
+            <div style={{ textAlign: 'center', marginTop: 'var(--space-8)' }}>
               <Link href="/blog" className="btn btn-outline">View All Articles</Link>
             </div>
           </div>
@@ -284,10 +223,12 @@ export default async function HomePage() {
       <section className={styles.ctaSection}>
         <div className="container">
           <div className={styles.ctaBox}>
-            <span className="section-label">Take the First Step</span>
+            <span className="section-badge" style={{ background: 'rgba(255,255,255,0.12)', borderColor: 'rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.85)' }}>
+              Take the First Step
+            </span>
             <h2 className={styles.ctaTitle}>Begin Your Healing Journey Today</h2>
             <p className={styles.ctaDesc}>
-              Free 10-minute introductory call available. In-clinic (Zirakpur & Budhlada) or online worldwide.
+              Free 10-minute introductory call available. In-clinic (Zirakpur &amp; Budhlada) or online worldwide.
             </p>
             <div className={styles.ctaBtns}>
               <Link href="/appointment" className="btn btn-gold btn-lg" id="cta-book-btn">
@@ -300,6 +241,12 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Mobile sticky CTA */}
+      <div className="mobile-cta-bar" aria-hidden="true">
+        <Link href="/appointment" className="btn btn-gold">Book Appointment</Link>
+        <a href="tel:+916284411753" className="btn btn-outline">Call Now</a>
+      </div>
     </>
   );
 }
