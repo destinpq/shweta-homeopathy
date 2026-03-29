@@ -1,0 +1,251 @@
+[
+  {
+    "slug": "ultra-modern-ui-ux-elements",
+    "name": "Shweta Website Elements Guide",
+    "shortDesc": "Named interface elements and interaction patterns for an ultra-modern 2026 healthcare website direction.",
+    "intro": "This file is focused on page elements, not code.",
+    "symptoms": [],
+    "howHomeopathyHelps": "",
+    "icon": "Activity",
+    "status": "published"
+  },
+  {
+    "slug": "alopecia-hair-loss",
+    "name": "Alopecia & Hair Loss",
+    "shortDesc": "Personalized support for alopecia & hair loss.",
+    "intro": "This page should speak to adults and adolescents who are worried about sudden shedding, patchy loss, post-illness hair fall, postpartum changes, stress-related thinning, or long-term pattern loss.",
+    "symptoms": [
+      "Patchy hair loss or alopecia areata",
+      "Diffuse shedding after stress, illness, or medication changes",
+      "Receding hairline or thinning crown",
+      "Hair fall associated with dandruff or scalp sensitivity"
+    ],
+    "howHomeopathyHelps": "The clinic offers homeopathic care as a personalized and complementary form of support, rooted in detailed case-taking and follow-up.",
+    "icon": "Activity",
+    "status": "published"
+  },
+  {
+    "slug": "cancer-supportive-care",
+    "name": "Cancer Supportive Care",
+    "shortDesc": "A complementary-care page for patients undergoing treatment or recovery.",
+    "intro": "This page is designed for patients undergoing chemotherapy, radiation, surgery recovery, or survivorship, and for families seeking supportive care alongside oncology guidance.",
+    "symptoms": [
+      "Fatigue and low energy during treatment",
+      "Nausea",
+      "Appetite loss",
+      "Sleep disruption",
+      "Emotional overwhelm"
+    ],
+    "howHomeopathyHelps": "Dr. Shweta’s clinic approaches care in a detailed, individualized way, offering homeopathic care as a personalized and complementary form of support, rooted in detailed case-taking and follow-up.",
+    "icon": "Activity",
+    "status": "published"
+  },
+  {
+    "slug": "joint-problems-arthritis",
+    "name": "Joint Problems & Arthritis",
+    "shortDesc": "Personalized support for joint problems & arthritis.",
+    "intro": "This page provides a premium consultation for individuals experiencing joint pain, morning stiffness, recurrent swelling, gout flares, and reduced mobility.",
+    "symptoms": [
+      "Morning stiffness and reduced flexibility",
+      "Swelling, warmth, or painful flare-ups",
+      "Knee pain, back-linked joint pain, or small-joint discomfort",
+      "Weather-related aggravation or pain on first movement"
+    ],
+    "howHomeopathyHelps": "Dr. Shweta’s clinic offers homeopathic care as a personalized and complementary form of support, rooted in detailed case-taking and follow-up.",
+    "icon": "Activity",
+    "status": "published"
+  },
+  {
+    "slug": "womens-health",
+    "name": "Women's Health",
+    "shortDesc": "Personalized support for women's health concerns.",
+    "intro": "This page serves teens, young adults, and women seeking to understand cycle irregularity, PCOS/PCOD, or endometriosis-like symptoms, providing a calmer consultation experience.",
+    "symptoms": [
+      "Irregular, delayed, or absent periods",
+      "Painful or heavy menstruation",
+      "Acne",
+      "Hair fall",
+      "Weight fluctuation",
+      "Cycle-linked mood shifts",
+      "White discharge or recurrent discomfort",
+      "Questions around fertility, preconception health, or hormonal balance"
+    ],
+    "howHomeopathyHelps": "Dr. Shweta’s clinic offers homeopathic care as a personalized and complementary form of support, rooted in detailed case-taking and follow-up.",
+    "icon": "Activity",
+    "status": "published"
+  },
+  {
+    "slug": "diabetes-mellitus",
+    "name": "Diabetes Mellitus",
+    "shortDesc": "Personalized support for diabetes mellitus.",
+    "intro": "A premium consultation page for people seeking careful listening, individualized case review, and a calmer path through diabetes mellitus concerns.",
+    "symptoms": [
+      "High blood sugar or prediabetes concern",
+      "Thirst",
+      "Urination",
+      "Fatigue",
+      "Slow recovery",
+      "Cravings",
+      "Weight changes",
+      "Fluctuating energy",
+      "Sleep disturbance",
+      "Stress affecting glucose control",
+      "Concern about long-term complications",
+      "Daily discipline"
+    ],
+    "howHomeopathyHelps": "The clinic offers homeopathic care as a personalized and complementary form of support, rooted in detailed case-taking and follow-up, while also making it clear that urgent medical problems, specialist care, or ongoing prescribed treatment should not be ignored.",
+    "icon": "Activity",
+    "status": "published"
+  },
+  {
+    "slug": "geriatric-disorders",
+    "name": "Geriatric Disorders",
+    "shortDesc": "A sophisticated long-form page for elderly care concerns including sleep, digestion, mobility, emotional wellbeing, and multi-condition coordination.",
+    "intro": "This page should speak to elderly patients and adult children who are looking for calm, patient, whole-person care for complex chronic complaints, fatigue, sleep issues, appetite changes, joint pain, and emotional low mood.",
+    "symptoms": [
+      "Sleep issues",
+      "low appetite",
+      "digestive weakness",
+      "Multiple aches",
+      "stiffness",
+      "slow recovery",
+      "Memory complaints",
+      "reduced day-to-day confidence",
+      "Loneliness",
+      "low mood",
+      "low energy",
+      "Complex medication histories"
+    ],
+    "howHomeopathyHelps": "The clinic offers homeopathic care as a personalized and complementary form of support, rooted in detailed case-taking and follow-up.",
+    "icon": "Activity",
+    "status": "published"
+  },
+  {
+    "slug": "depression-anxiety",
+    "name": "Depression & Anxiety",
+    "shortDesc": "Personalized support for depression & anxiety.",
+    "intro": "A premium consultation page for people seeking careful listening, individualized case review, and a calmer path through depression & anxiety concerns.",
+    "symptoms": [
+      "Persistent worry",
+      "Racing thoughts",
+      "Low mood",
+      "Sleep disturbance"
+    ],
+    "howHomeopathyHelps": "The clinic offers homeopathic care as a personalized and complementary form of support, rooted in detailed case-taking and follow-up.",
+    "icon": "Activity",
+    "status": "published"
+  },
+  {
+    "slug": "gastrointestinal-disorders",
+    "name": "Gastrointestinal Disorders",
+    "shortDesc": "An in-depth content package for acidity, IBS, bloating, bowel irregularity, gut sensitivity, and digestive-pattern mapping.",
+    "intro": "This page should help adults identify their digestive patterns quickly, whether they are dealing with bloating, acidity, reflux, constipation, loose motions, IBS patterns, or gut symptoms linked to stress.",
+    "symptoms": [
+      "Acidity",
+      "reflux",
+      "sour belching",
+      "upper abdominal burning",
+      "Bloating",
+      "gas",
+      "heaviness",
+      "food intolerance",
+      "Constipation",
+      "loose stools",
+      "alternating bowel patterns",
+      "Stress-linked gut symptoms",
+      "Concern about long-term inflammation or bowel sensitivity"
+    ],
+    "howHomeopathyHelps": "The clinic offers homeopathic care as a personalized and complementary form of support, rooted in detailed case-taking and follow-up.",
+    "icon": "Activity",
+    "status": "published"
+  },
+  {
+    "slug": "pediatric-diseases",
+    "name": "Pediatric Diseases",
+    "shortDesc": "Personalized support for childhood recurrent infections and concerns.",
+    "intro": "This page provides a premium consultation service for parents worried about their children's recurrent colds, allergies, digestion, and overall resilience.",
+    "symptoms": [
+      "Recurrent colds",
+      "Cough",
+      "Throat issues",
+      "Allergy patterns",
+      "Wheeze history",
+      "Skin sensitivity",
+      "Digestive upset",
+      "Appetite concerns",
+      "Constipation",
+      "Sleep disturbance",
+      "Irritability",
+      "Bedwetting",
+      "Recurring minor illnesses"
+    ],
+    "howHomeopathyHelps": "Dr. Shweta’s clinic offers individualized homeopathic care, focusing on detailed case-taking and follow-up to address the unique needs of each child.",
+    "icon": "Activity",
+    "status": "published"
+  },
+  {
+    "slug": "skin-diseases",
+    "name": "Skin Diseases",
+    "shortDesc": "A premium consultation page for people seeking careful listening and individualized case review for skin concerns.",
+    "intro": "This page serves users searching for eczema, acne, psoriasis, recurrent rashes, hives, pigmentation concerns, or chronic skin irritation that keeps coming back.",
+    "symptoms": [
+      "Itching",
+      "Dryness",
+      "Scaling",
+      "Recurrent flares",
+      "Redness",
+      "Patches",
+      "Thickened skin",
+      "Oozing episodes",
+      "Acne",
+      "Post-inflammatory marks",
+      "Stress-related worsening",
+      "Hives",
+      "Sensitivity",
+      "Trigger-linked flare-ups",
+      "Sleep disturbance",
+      "Confidence issues due to visible symptoms"
+    ],
+    "howHomeopathyHelps": "Dr. Shweta’s clinic approaches care in a detailed, individualized way, offering homeopathic care as a personalized and complementary form of support, rooted in detailed case-taking and follow-up.",
+    "icon": "Activity",
+    "status": "published"
+  },
+  {
+    "slug": "respiratory-diseases",
+    "name": "Respiratory Diseases",
+    "shortDesc": "A modern service-page brief for asthma, sinusitis, allergic rhinitis, recurrent bronchitis, and airway-related quality of life.",
+    "intro": "This page should speak to adults and parents searching for help with wheezing, recurrent cough, chronic sinus pressure, sneezing, blocked nose, allergic rhinitis, or weather-triggered respiratory patterns.",
+    "symptoms": [
+      "Wheezing",
+      "chest tightness",
+      "recurrent cough",
+      "Blocked nose",
+      "post-nasal drip",
+      "sinus pressure",
+      "Sneezing",
+      "itching",
+      "seasonal allergy patterns",
+      "Repeated bronchitis",
+      "chest congestion",
+      "Sleep disruption from nasal or breathing complaints"
+    ],
+    "howHomeopathyHelps": "The clinic offers homeopathic care as a personalized and complementary form of support, rooted in detailed case-taking and follow-up, while also making it clear that urgent medical problems, specialist care, or ongoing prescribed treatment should not be ignored.",
+    "icon": "Activity",
+    "status": "published"
+  },
+  {
+    "slug": "thyroid-disorders",
+    "name": "Thyroid Disorders",
+    "shortDesc": "A long-form page brief for hypothyroid and hyperthyroid symptom patterns.",
+    "intro": "This page should speak to patients struggling with fatigue, weight changes, hair fall, cycle irregularity, swelling, temperature sensitivity, or lab fluctuations related to thyroid imbalance.",
+    "symptoms": [
+      "Fatigue",
+      "Weight gain or weight loss",
+      "Hair fall",
+      "Mood shifts"
+    ],
+    "howHomeopathyHelps": "The clinic offers homeopathic care as a personalized and complementary form of support, rooted in detailed case-taking and follow-up.",
+    "icon": "Activity",
+    "status": "published"
+  }
+]

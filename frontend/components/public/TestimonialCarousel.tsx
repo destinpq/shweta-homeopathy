@@ -1,5 +1,6 @@
 'use client';
 
+import { Star } from 'lucide-react';
 import { useEffect, useState, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import styles from './TestimonialCarousel.module.css';
@@ -70,7 +71,7 @@ export default function TestimonialCarousel({ testimonials }: Props) {
         >
           <div className={styles.stars}>
             {Array.from({ length: current.rating }).map((_, i) => (
-              <span key={i} className={styles.star}>★</span>
+              <span key={i} className={styles.star}><Star size={14} fill="var(--clr-gold)" color="var(--clr-gold)" /></span>
             ))}
           </div>
           <blockquote className={styles.quote}>{current.text}</blockquote>

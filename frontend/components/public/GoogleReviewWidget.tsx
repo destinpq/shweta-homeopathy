@@ -1,3 +1,4 @@
+import { Star } from 'lucide-react';
 import styles from './GoogleReviewWidget.module.css';
 
 interface Props {
@@ -12,8 +13,8 @@ interface Props {
   reviewsUrl?: string;
 }
 
-const STAR = '★';
-const EMPTY_STAR = '☆';
+const STAR = 'S';
+const EMPTY_STAR = 'E';
 
 function Stars({ rating }: { rating: number }) {
   return (

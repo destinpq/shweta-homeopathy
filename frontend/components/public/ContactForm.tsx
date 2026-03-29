@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { CheckCircle2 } from 'lucide-react';
 import styles from './ContactForm.module.css';
 
 interface Fields { name: string; email: string; phone: string; subject: string; message: string; }
@@ -45,7 +46,9 @@ export default function ContactForm() {
   if (success) {
     return (
       <div className={styles.successBox}>
-        <div style={{ fontSize: '2.5rem', marginBottom: 'var(--space-4)' }}>✅</div>
+        <div style={{ marginBottom: 'var(--space-4)', color: 'var(--clr-forest)' }}>
+          <CheckCircle2 size={40} />
+        </div>
         <h3>Message received!</h3>
         <p>Thank you for reaching out. We will get back to you within 24 hours.</p>
       </div>

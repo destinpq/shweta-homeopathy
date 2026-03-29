@@ -28,7 +28,7 @@ export const conditions: Condition[] = [
     intro: 'Hair loss can affect confidence and quality of life deeply. Homeopathy addresses the root constitutional cause — stress, hormonal imbalance, nutritional deficiency, or hereditary factors — rather than just the symptom.',
     symptoms: ['Patchy hair loss','Receding hairline','Thinning across scalp','Hair loss with dandruff','Hair loss during hormonal changes'],
     howHomeopathyHelps: 'Remedies like Phosphorus, Lycopodium, and Silicea are selected individually based on the patient\'s constitution, strengthening hair follicles and addressing underlying causes.',
-    icon: '🌿',
+    icon: 'Leaf',
   },
   {
     slug: 'cancer-supportive-care',
@@ -38,7 +38,7 @@ export const conditions: Condition[] = [
     intro: 'Homeopathy is used as a complementary treatment to help manage side effects of chemotherapy and radiation, improve immunity, and support the body\'s natural healing capacity.',
     symptoms: ['Fatigue from chemo','Nausea and vomiting','Loss of appetite','Reduced immunity','Emotional distress'],
     howHomeopathyHelps: 'Individualized constitutional remedies help improve vitality, manage side effects, and enhance overall quality of life during and after cancer treatment.',
-    icon: '🌸',
+    icon: 'Flower',
   },
   {
     slug: 'joint-problems-arthritis',
@@ -48,7 +48,7 @@ export const conditions: Condition[] = [
     intro: 'Joint problems including rheumatoid arthritis, osteoarthritis, and gout cause significant pain and restrict mobility. Homeopathy offers curative treatment targeting the root inflammatory and metabolic imbalances.',
     symptoms: ['Morning stiffness','Swelling and redness','Pain on movement','Restricted range of motion','Joint deformity'],
     howHomeopathyHelps: 'Remedies such as Rhus Tox, Bryonia, and Colchicum reduce inflammation, improve joint mobility, and provide long-term relief without NSAIDs or steroids.',
-    icon: '🦴',
+    icon: 'Bone',
   },
   {
     slug: 'female-diseases',
@@ -58,7 +58,7 @@ export const conditions: Condition[] = [
     intro: "Women's health requires a sensitive, holistic approach. Dr. Shweta specializes in treating hormonal imbalances, PCOD, endometriosis, menstrual irregularities, and fertility concerns with individualized homeopathic treatment.",
     symptoms: ['Irregular periods','PCOD / PCOS','Heavy or painful menstruation','Endometriosis','Leucorrhoea','Fertility concerns'],
     howHomeopathyHelps: 'Constitutional remedies like Pulsatilla, Sepia, and Lachesis are chosen based on the complete symptom picture, regulating hormones and restoring reproductive health naturally.',
-    icon: '🌺',
+    icon: 'Activity',
   },
   {
     slug: 'diabetes-mellitus',
@@ -68,7 +68,7 @@ export const conditions: Condition[] = [
     intro: 'Homeopathy helps manage Type 2 diabetes by improving metabolic function, reducing complications, and enhancing overall wellbeing. It works alongside conventional management for a comprehensive approach.',
     symptoms: ['High blood sugar','Increased thirst and urination','Fatigue','Slow wound healing','Tingling in hands or feet'],
     howHomeopathyHelps: 'Remedies like Syzygium, Uranium Nitricum, and Phosphorus help regulate glucose metabolism, manage complications, and improve energy levels.',
-    icon: '💊',
+    icon: 'Pill',
   },
   {
     slug: 'geriatric-disorders',
@@ -78,7 +78,7 @@ export const conditions: Condition[] = [
     intro: 'The elderly often suffer from multiple chronic conditions with complex medication interactions. Homeopathy offers gentle, safe treatment without side effects, improving quality of life in the golden years.',
     symptoms: ['Memory decline','Insomnia','Multiple joint pains','Digestive weakness','Loneliness and depression'],
     howHomeopathyHelps: 'Individualized constitutional treatment improves vitality, memory, digestion, and emotional wellbeing. Remedies are safe even with long-term use.',
-    icon: '🌳',
+    icon: 'TreePine',
   },
   {
     slug: 'depression-anxiety',
@@ -88,7 +88,7 @@ export const conditions: Condition[] = [
     intro: 'Mental health conditions like depression, anxiety, and panic disorders have deep constitutional roots. Homeopathy treats the whole person — mind and body together — offering lasting relief.',
     symptoms: ['Persistent sadness','Excessive worry','Panic attacks','Sleep disturbances','Lack of motivation','Social withdrawal'],
     howHomeopathyHelps: 'Remedies like Ignatia, Natrum Mur, and Argentum Nitricum are matched to the individual\'s emotional and physical symptom pattern, providing natural, non-addictive support.',
-    icon: '🧠',
+    icon: 'Brain',
   },
   {
     slug: 'gastrointestinal-disorders',
@@ -98,7 +98,7 @@ export const conditions: Condition[] = [
     intro: 'The gut is central to overall health. Homeopathy effectively treats chronic GI conditions like IBS, acid reflux, Crohn\'s disease, and colitis by addressing the underlying constitutional imbalance.',
     symptoms: ['Chronic acidity / GERD','IBS (bloating, alternating bowels)','Chronic constipation or diarrhea','Gastric ulcers','Inflammatory bowel disease'],
     howHomeopathyHelps: 'Remedies such as Nux Vomica, Carbo Veg, and Lycopodium heal the digestive lining, reduce inflammation, and restore normal gut function.',
-    icon: '🫁',
+    icon: 'Activity',
   },
   {
     slug: 'pediatric-diseases',
@@ -108,7 +108,7 @@ export const conditions: Condition[] = [
     intro: 'Children respond beautifully to homeopathic treatment because their vital force is strong. Dr. Shweta has extensive experience treating childhood illnesses — from recurrent infections to developmental concerns — safely.',
     symptoms: ['Recurrent cold and cough','Ear infections','Asthma in children','ADHD and behavioral issues','Bedwetting','Skin allergies'],
     howHomeopathyHelps: 'Homeopathic remedies for children are sweet, gentle, and completely safe. They boost immunity and treat the root cause, reducing recurrence of infections and allergies.',
-    icon: '👶',
+    icon: 'Baby',
   },
   {
     slug: 'skin-disease',
@@ -118,7 +118,7 @@ export const conditions: Condition[] = [
     intro: 'Skin diseases often reflect internal constitutional imbalances. Homeopathy treats from within — not just topically — producing deep, lasting resolution of chronic skin conditions.',
     symptoms: ['Eczema / Atopic dermatitis','Psoriasis','Acne and rosacea','Urticaria (hives)','Vitiligo','Fungal infections'],
     howHomeopathyHelps: 'Constitutional remedies like Sulphur, Graphites, and Arsenicum Album address the internal terrain causing skin disease, avoiding dependence on steroids or harsh topical treatments.',
-    icon: '✨',
+    icon: 'Sparkles',
   },
   {
     slug: 'respiratory-diseases',
@@ -128,7 +128,7 @@ export const conditions: Condition[] = [
     intro: 'Chronic respiratory conditions like asthma, sinusitis, and allergic rhinitis significantly impact quality of life. Homeopathy strengthens respiratory immunity and addresses allergic predisposition at the constitutional level.',
     symptoms: ['Asthma and wheezing','Chronic sinusitis','Allergic rhinitis / hay fever','Recurrent bronchitis','Post-nasal drip'],
     howHomeopathyHelps: 'Remedies like Arsenicum Album, Natrum Mur, and Spongia address the allergic diathesis, reducing frequency and severity of attacks over time.',
-    icon: '🫧',
+    icon: 'Droplets',
   },
   {
     slug: 'thyroid-disorders',
@@ -138,7 +138,7 @@ export const conditions: Condition[] = [
     intro: 'Thyroid disorders affect metabolism, energy, weight, and hormonal balance. Homeopathy can significantly improve thyroid function, sometimes reducing dependence on thyroid medication over time.',
     symptoms: ['Weight gain or loss','Fatigue and sluggishness','Hair thinning','Cold or heat intolerance','Mood swings','Swelling of thyroid (goitre)'],
     howHomeopathyHelps: 'Remedies like Thyroidinum, Lycopus, and Calcarea Carb are matched to the patient\'s constitutional type and thyroid pattern for safe, natural regulation.',
-    icon: '🌱',
+    icon: 'Sprout',
   },
 ];
 

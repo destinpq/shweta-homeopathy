@@ -64,7 +64,7 @@ export default function VideoSection({
                     <span className={styles.playLabel}>Watch Video</span>
                   </button>
                   <div className={styles.posterBadge}>
-                    <span>🎬</span> 60–90 sec · Meet the Doctor
+                    <Video size={16} className={styles.metaIcon} /> <span>60–90 sec · Meet the Doctor</span>
                   </div>
                 </div>
               ) : (
