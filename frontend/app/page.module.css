@@ -324,11 +324,16 @@
 }
 
 /* ─── Why Choose ──────────────────────────────────────────── */
-.whyCard { text-align: center; }
+.whySection {}
+.whyGrid { margin-top: var(--space-10); }
+.whyCard { text-align: center; padding: var(--space-6); }
 .whyIcon { font-size: 36px; margin-bottom: var(--space-3); }
 .whyCard h4 { margin-bottom: var(--space-2); color: var(--clr-forest); }
 
 /* ─── Process ─────────────────────────────────────────────── */
+.processSection {
+  background: var(--clr-sage-pale);
+}
 .processGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -371,6 +376,23 @@
 .processDesc { font-size: var(--text-sm); color: var(--clr-text-mid); }
 
 /* ─── Testimonials ────────────────────────────────────────── */
+.testimonialsSection {}
+
+.reviewWidgetWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-10);
+  margin-bottom: var(--space-4);
+}
+
+.quoteIconLg {
+  font-family: var(--font-heading);
+  font-size: 48px;
+  color: var(--clr-sage-lt);
+  line-height: 0.7;
+  font-style: italic;
+  margin-bottom: var(--space-1);
+}
 .testimonialGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
 
 .testimonialCard {
@@ -420,11 +442,8 @@
 }
 
 /* ─── FAQ ─────────────────────────────────────────────────── */
-.faqGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-4); }
-
-.faqCard {}
-.faqQ { font-size: var(--text-base); margin-bottom: var(--space-3); color: var(--clr-forest); }
-.faqA { font-size: var(--text-sm); color: var(--clr-text-mid); line-height: 1.7; }
+.faqSection {}
+.faqWrap { max-width: 800px; margin-inline: auto; }
 
 /* ─── Blog Preview ────────────────────────────────────────── */
 .blogPreviewGrid {

@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { buildMetadata } from '@/lib/seo';
+import BentoCredentials from '@/components/public/BentoCredentials';
+import styles from './about.module.css';
 
 export const metadata: Metadata = buildMetadata({
   title: 'About Dr. Shweta Goyal',
@@ -23,105 +25,101 @@ const timeline = [
 ];
 
 const philosophy = [
-  'Every patient is a unique individual — the prescription must match the person, not the disease label.',
-  'Homeopathy aims to remove the root cause of suffering, not suppress symptoms.',
-  'The therapeutic relationship built over time is as healing as the remedy itself.',
-  'Classical prescribing — one well-chosen constitutional remedy — is the foundation of deep healing.',
+  { icon: '🧬', text: 'Every patient is a unique individual — the prescription must match the person, not the disease label.' },
+  { icon: '🌱', text: 'Homeopathy aims to remove the root cause of suffering, not suppress symptoms.' },
+  { icon: '🤝', text: 'The therapeutic relationship built over time is as healing as the remedy itself.' },
+  { icon: '📚', text: 'Classical prescribing — one well-chosen constitutional remedy — is the foundation of deep healing.' },
 ];
 
 export default function AboutPage() {
   return (
     <>
-      {/* Hero */}
-      <section style={{
-        background: 'linear-gradient(160deg, hsl(152,42%,14%), hsl(152,30%,28%))',
-        padding: 'var(--space-20) 0',
-      }}>
-        <div className="container">
-          <span className="section-label" style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>About the Doctor</span>
-          <h1 style={{ color: 'var(--clr-white)', marginBottom: 'var(--space-4)', marginTop: 'var(--space-3)' }}>
-            Dr. Shweta Goyal
-          </h1>
-          <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 'var(--text-lg)', maxWidth: '600px' }}>
-            BHMS (Gold Medalist) · MD (Homoeopathy) · PG IACH Greece · DNHE Delhi<br />
-            Classical Homeopath. 15+ Years of Practice.
-          </p>
+      {/* ── Split-screen Hero ── */}
+      <section className={styles.hero}>
+        <div className={`container ${styles.heroInner}`}>
+          <div className={styles.heroText}>
+            <div className={styles.heroBadge}>🌿 About the Doctor</div>
+            <h1 className={styles.heroTitle}>Dr. Shweta Goyal</h1>
+            <p className={styles.heroSub}>
+              Classical Homeopath with 15+ years of practice across Zirakpur, Budhlada, and online — treating patients worldwide.
+            </p>
+            <div className={styles.heroCreds}>
+              {['BHMS Gold Medalist', 'MD (Hom)', 'PG · IACH Greece', 'DNHE Delhi'].map((c) => (
+                <span key={c} className={styles.credPill}>{c}</span>
+              ))}
+            </div>
+          </div>
+          <div className={styles.heroPhoto}>
+            {/* REPLACE with candid warm-lit photo when client provides */}
+            <div className={styles.heroPhotoFrame}>
+              <Image
+                src="/Clinic Pictures/IMG-20240615-WA0085.jpg"
+                alt="Dr. Shweta Goyal"
+                fill
+                style={{ objectFit: 'cover', objectPosition: 'center top' }}
+                priority
+              />
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Bio */}
-      <section className="section">
+      {/* ── Bento Credentials ── */}
+      <BentoCredentials />
+
+      {/* ── Bio & Timeline ── */}
+      <section className={styles.bioSection}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: 'var(--space-16)', alignItems: 'start' }}>
-            {/* Photo placeholder */}
-            <div style={{ position: 'sticky', top: 'calc(var(--header-h) + 2rem)' }}>
-              <div style={{
-                aspectRatio: '3/4',
-                background: 'linear-gradient(160deg, var(--clr-sage-pale), var(--clr-sage-lt))',
-                borderRadius: 'var(--radius-xl)',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '80px',
-                gap: 'var(--space-4)',
-                border: '1px solid var(--clr-border)',
-                position: 'relative',
-                overflow: 'hidden',
-              }}>
-                <Image src="/Clinic Pictures/IMG-20240615-WA0085.jpg" alt="Dr. Shweta Goyal" fill style={{ objectFit: 'cover' }} />
+          <div className={styles.bioGrid}>
+            {/* Sticky photo + sidebar CTA */}
+            <div className={styles.stickyCol}>
+              <div className={styles.photoWrap}>
+                <Image
+                  src="/Clinic Pictures/IMG-20240615-WA0219.jpg"
+                  alt="Dr. Shweta Goyal at clinic"
+                  fill
+                  style={{ objectFit: 'cover', objectPosition: 'center top' }}
+                  sizes="(max-width: 640px) 100vw, 320px"
+                />
               </div>
-              <div className="card" style={{ marginTop: 'var(--space-4)', textAlign: 'center' }}>
-                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--clr-text-mid)', marginBottom: 'var(--space-4)' }}>
-                  Ready to start your healing journey?
-                </p>
-                <Link href="/appointment" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
+              <div className={`glass-card ${styles.ctaSidebar}`}>
+                <p className={styles.ctaSidebarText}>Ready to start your healing journey?</p>
+                <Link href="/appointment" className="btn btn-gold" style={{ width: '100%', justifyContent: 'center' }}>
                   Book a Consultation
                 </Link>
               </div>
             </div>
 
-            {/* Content */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-8)' }}>
+            {/* Content column */}
+            <div className={styles.contentCol}>
+              {/* Bio text */}
               <div>
                 <span className="section-label">Background</span>
-                <h2 style={{ marginBottom: 'var(--space-4)', marginTop: 'var(--space-3)' }}>A Luminary in Classical Homeopathy</h2>
+                <h2 style={{ marginBottom: 'var(--space-4)', marginTop: 'var(--space-3)' }}>
+                  A Luminary in Classical Homeopathy
+                </h2>
                 <div className="divider" />
                 <p>
                   Dr. Shweta Goyal is a distinguished homeopathic physician with a rare combination of academic excellence
-                  and deep clinical experience. Born from a calling to heal rather than merely treat, she has dedicated
-                  her practice to the principles of classical homeopathy — individualized, constitutional prescribing
-                  that treats the whole person.
-                </p>
-                <p style={{ marginTop: 'var(--space-4)' }}>
-                  She graduated as a <strong>Gold Medalist in BHMS from Panjab University</strong>, a distinction that reflects
-                  both her intellectual rigour and her passion for the science of homeopathy. She pursued her MD in Homeopathy
-                  and then undertook a prestigious post-graduate programme at the
-                  <strong> International Academy of Classical Homeopathy (IACH) in Greece</strong> — one of the foremost
-                  institutions for classical homeopathy in the world, founded by Dr. George Vithoulkas.
+                  and deep clinical experience. She graduated as a <strong>Gold Medalist in BHMS from Panjab University</strong>,
+                  followed by an MD in Homeopathy and a prestigious post-graduate qualification from the
+                  <strong> International Academy of Classical Homeopathy (IACH), Greece</strong> — one of the world&apos;s
+                  foremost institutions for classical homeopathic training, founded by Dr. George Vithoulkas.
                 </p>
                 <p style={{ marginTop: 'var(--space-4)' }}>
                   Today, with over 15 years of clinical practice and more than 10,000 patients treated, Dr. Shweta runs
-                  clinics in Zirakpur and Budhlada, Punjab, and conducts online consultations for patients across India
-                  and internationally.
+                  clinics in Zirakpur and Budhlada, Punjab, and conducts online consultations for patients across India and internationally.
                 </p>
               </div>
 
               {/* Philosophy */}
               <div>
                 <h3 style={{ marginBottom: 'var(--space-4)' }}>Treatment Philosophy</h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
+                <div className={styles.philosophyGrid}>
                   {philosophy.map((p, i) => (
-                    <div key={i} style={{
-                      display: 'flex',
-                      gap: 'var(--space-4)',
-                      padding: 'var(--space-4)',
-                      background: 'var(--clr-sage-pale)',
-                      borderRadius: 'var(--radius-md)',
-                      borderLeft: '3px solid var(--clr-sage)',
-                    }}>
-                      <span style={{ fontSize: 'var(--text-xl)', flexShrink: 0 }}>🍃</span>
-                      <p style={{ margin: 0, fontSize: 'var(--text-sm)', lineHeight: 1.7, color: 'var(--clr-text)' }}>{p}</p>
+                    <div key={i} className={styles.philosophyCard}>
+                      <span className={styles.philosophyIcon}>{p.icon}</span>
+                      <p className={styles.philosophyText}>{p.text}</p>
                     </div>
                   ))}
                 </div>
@@ -130,25 +128,17 @@ export default function AboutPage() {
               {/* Timeline */}
               <div>
                 <h3 style={{ marginBottom: 'var(--space-6)' }}>Journey & Credentials</h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)', position: 'relative', paddingLeft: 'var(--space-10)' }}>
-                  <div style={{ position: 'absolute', left: '20px', top: 0, bottom: 0, width: '2px', background: 'var(--clr-sage-lt)' }} />
-                  {timeline.map((t) => (
-                    <div key={t.year} style={{ position: 'relative' }}>
-                      <div style={{
-                        position: 'absolute',
-                        left: 'calc(-1 * var(--space-10) - 1px + 20px)',
-                        top: '4px',
-                        width: '10px',
-                        height: '10px',
-                        borderRadius: '50%',
-                        background: 'var(--clr-sage)',
-                        border: '2px solid var(--clr-white)',
-                        boxShadow: '0 0 0 2px var(--clr-sage-lt)',
-                      }} />
-                      <span style={{ fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--clr-gold)', letterSpacing: '0.06em', display: 'block', marginBottom: 'var(--space-1)' }}>{t.year}</span>
-                      <p style={{ margin: 0, fontSize: 'var(--text-sm)', color: 'var(--clr-text)', fontWeight: 500 }}>{t.event}</p>
-                    </div>
-                  ))}
+                <div className={styles.timelineWrap}>
+                  <div className={styles.timelineLine} />
+                  <div className={styles.timelineItems}>
+                    {timeline.map((t) => (
+                      <div key={t.year} className={styles.timelineItem}>
+                        <div className={styles.timelineDot} />
+                        <span className={styles.timelineYear}>{t.year}</span>
+                        <p className={styles.timelineEvent}>{t.event}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -156,16 +146,17 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{ background: 'var(--clr-sage-pale)', padding: 'var(--space-16) 0' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <h2 style={{ marginBottom: 'var(--space-4)' }}>Ready to Begin Your Healing?</h2>
-          <p style={{ color: 'var(--clr-text-mid)', fontSize: 'var(--text-lg)', marginBottom: 'var(--space-8)', maxWidth: '500px', marginInline: 'auto' }}>
-            Schedule a consultation with Dr. Shweta — in clinic or online.
-          </p>
-          <Link href="/appointment" className="btn btn-primary btn-lg">Request Appointment</Link>
+      {/* ── CTA ── */}
+      <section className={styles.ctaStrip}>
+        <div className="container">
+          <div className={styles.ctaInner}>
+            <h2>Ready to Begin Your Healing?</h2>
+            <p>Schedule a consultation with Dr. Shweta — in clinic or online.</p>
+            <Link href="/appointment" className="btn btn-gold btn-lg">Request Appointment</Link>
+          </div>
         </div>
       </section>
     </>
   );
 }
+

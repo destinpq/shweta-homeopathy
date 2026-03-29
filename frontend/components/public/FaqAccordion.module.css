@@ -46,16 +46,10 @@
 }
 
 .answer {
-  max-height: 0;
   overflow: hidden;
-  transition: max-height 0.35s ease;
 }
 
-.isOpen .answer {
-  max-height: 400px;
-}
-
-.answer p {
+.answerText {
   padding: 0 var(--space-2) var(--space-5);
   font-size: var(--text-base);
   line-height: 1.8;

@@ -85,7 +85,7 @@ export default function HomeHero({ stats }: Props) {
           initial={{ opacity: 0, x: 48 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.75, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
-          style={{ y: photoY } as React.CSSProperties}
+          style={{ y: photoY }}
         >
           {/*
             REPLACE THE IMG BELOW WITH A CANDID WARM-LIT PHOTO OF DR. SHWETA (no white coat)
