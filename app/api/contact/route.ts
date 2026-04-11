@@ -19,11 +19,15 @@ export async function POST(req: NextRequest) {
       ]);
     }
     if (ADMIN_EMAIL) {
-      await sendEmail({
-        to: ADMIN_EMAIL,
-        subject: `New Contact Message — ${name}`,
-        html: adminNotificationEmail({ Name: name, Email: email, Phone: phone || 'N/A', Subject: subject || 'N/A', Message: message, Timestamp: timestamp }),
-      });
+      try {
+        await sendEmail({
+          to: ADMIN_EMAIL,
+          subject: `New Contact Message — ${name}`,
+          html: adminNotificationEmail({ Name: name, Email: email, Phone: phone || 'N/A', Subject: subject || 'N/A', Message: message, Timestamp: timestamp }),
+        });
+      } catch (emailErr) {
+        console.warn('[contact API] Email send failed (contact still saved):', (emailErr as Error).message);
+      }
     }
     return NextResponse.json({ success: true });
   } catch (err) {

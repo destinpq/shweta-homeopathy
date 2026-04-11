@@ -27,18 +27,22 @@ export async function POST(req: NextRequest) {
       ]]);
     }
 
-    // Send emails
+    // Best-effort email — don't let email failures block the appointment
     if (ADMIN_EMAIL) {
-      await sendEmail({
-        to: ADMIN_EMAIL,
-        subject: `New Appointment Request — ${name} (${concern})`,
-        html: adminNotificationEmail({ Name: name, Email: email, Phone: phone, Age: age || 'N/A', Concern: concern, 'Preferred Time': preferredTime || 'Any', 'Consultation Type': consultationType, Message: message || 'N/A', Timestamp: timestamp }),
-      });
-      await sendEmail({
-        to: email,
-        subject: "We've received your appointment request — Dr. Shweta's Homoeopathy",
-        html: appointmentAckEmail(name),
-      });
+      try {
+        await sendEmail({
+          to: ADMIN_EMAIL,
+          subject: `New Appointment Request — ${name} (${concern})`,
+          html: adminNotificationEmail({ Name: name, Email: email, Phone: phone, Age: age || 'N/A', Concern: concern, 'Preferred Time': preferredTime || 'Any', 'Consultation Type': consultationType, Message: message || 'N/A', Timestamp: timestamp }),
+        });
+        await sendEmail({
+          to: email,
+          subject: "We've received your appointment request — Dr. Shweta's Homoeopathy",
+          html: appointmentAckEmail(name),
+        });
+      } catch (emailErr) {
+        console.warn('[appointment API] Email send failed (appointment still saved):', (emailErr as Error).message);
+      }
     }
 
     return NextResponse.json({ success: true });
