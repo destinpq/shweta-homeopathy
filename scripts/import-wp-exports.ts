@@ -94,7 +94,7 @@ async function appendRows(sheetId: string, range: string, rows: string[][]) {
 
 function stripElementorCSS(text: string): string {
   return text
-    .replace(/\/\*!.*?\*\//gs, '')
+    .replace(/\/\*![\s\S]*?\*\//g, '')
     .replace(/\.elementor[^{]*\{[^}]*\}/g, '')
     .replace(/@media[^{]*\{[^}]*(\{[^}]*\})*[^}]*\}/g, '')
     .replace(/\[rev_slider[^\]]*\]\[\/rev_slider\]/g, '')
