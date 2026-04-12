@@ -58,6 +58,8 @@ function classifyError(err: unknown): SheetsErrorKind {
     if (status === 503 || status === 500) return 'transient';
     if (status === 403 || status === 401) return 'permission';
     if (status === 404) return 'not_found';
+    // "Unable to parse range: SheetName!A:Z" means the tab doesn't exist — not retryable
+    if (/unable to parse range/i.test(msg)) return 'not_found';
     if (/ECONNRESET|ETIMEDOUT|ENOTFOUND|socket hang up/i.test(msg)) return 'transient';
   }
   return 'unknown';
@@ -134,6 +136,53 @@ async function _withRetryInner<T>(label: string, fn: () => Promise<T>): Promise<
   const status = (lastErr as { code?: number }).code;
   console.error(`[sheets] ${label} failed after ${MAX_RETRIES} attempts:`, (lastErr as Error).message);
   throw new SheetsError((lastErr as Error).message ?? String(lastErr), kind, status);
+}
+
+// ---------------------------------------------------------------------------
+// Tab management — auto-create a missing sheet tab
+// ---------------------------------------------------------------------------
+
+/** Parses "TabName!A:Z" → "TabName" (returns undefined for bare ranges like "A:Z") */
+function parseTabName(range: string): string | undefined {
+  const bang = range.indexOf('!');
+  return bang > 0 ? range.slice(0, bang) : undefined;
+}
+
+/**
+ * Ensures a sheet tab exists. If not, creates it with a header row.
+ * Safe to call even if the tab already exists (will silently skip).
+ */
+export async function ensureSheetTab(
+  sheetId: string,
+  tabName: string,
+  headers?: string[],
+): Promise<void> {
+  const sheets = getSheetsClient();
+
+  // Check if the tab already exists
+  const meta = await withRetry(`getSheetMeta(${tabName})`, () =>
+    sheets.spreadsheets.get({ spreadsheetId: sheetId, fields: 'sheets.properties.title' }),
+  );
+  const exists = (meta.data.sheets ?? []).some(
+    (s) => s.properties?.title === tabName,
+  );
+
+  if (!exists) {
+    console.log(`[sheets] Tab "${tabName}" not found — creating it...`);
+    await withRetry(`createTab(${tabName})`, () =>
+      sheets.spreadsheets.batchUpdate({
+        spreadsheetId: sheetId,
+        requestBody: {
+          requests: [{ addSheet: { properties: { title: tabName } } }],
+        },
+      }),
+    );
+
+    if (headers?.length) {
+      await appendToSheet(sheetId, `${tabName}!A1`, [headers]);
+    }
+    console.log(`[sheets] Tab "${tabName}" created successfully.`);
+  }
 }
 
 // ---------------------------------------------------------------------------
