@@ -53,7 +53,7 @@ export default function Header() {
         {/* Logo */}
         <Link href="/" className={styles.logo}>
           <div className={styles.logoMark}>
-            <Image src="/images/logo.svg" alt="Dr. Shweta's Homoeopathy" width={38} height={38} />
+            <Image src="/images/logo.svg" alt="Dr. Shweta's Homoeopathy" width={42} height={42} priority />
           </div>
           <div>
             <span className={styles.logoName}>Dr. Shweta Goyal</span>
