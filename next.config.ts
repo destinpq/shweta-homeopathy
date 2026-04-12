@@ -8,6 +8,21 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'lh3.googleusercontent.com' },
     ],
   },
+  async redirects() {
+    return [
+      // Legacy slug → canonical slug (permanent 308 so old links / SEO still resolve)
+      {
+        source: '/conditions/female-diseases',
+        destination: '/conditions/womens-health',
+        permanent: true,
+      },
+      {
+        source: '/conditions/skin-disease',
+        destination: '/conditions/skin-diseases',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

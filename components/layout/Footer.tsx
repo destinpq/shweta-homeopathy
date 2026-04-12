@@ -4,10 +4,10 @@ import styles from './Footer.module.css';
 
 const services = [
   { label: 'Alopecia & Hair Loss', href: '/conditions/alopecia-hair-loss' },
-  { label: "Women's Health", href: '/conditions/female-diseases' },
+  { label: "Women's Health", href: '/conditions/womens-health' },
   { label: 'Joint Problems', href: '/conditions/joint-problems-arthritis' },
   { label: 'Depression & Anxiety', href: '/conditions/depression-anxiety' },
-  { label: 'Skin Diseases', href: '/conditions/skin-disease' },
+  { label: 'Skin Diseases', href: '/conditions/skin-diseases' },
   { label: 'Thyroid Disorders', href: '/conditions/thyroid-disorders' },
 ];
 

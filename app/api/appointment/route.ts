@@ -17,14 +17,16 @@ export async function POST(req: NextRequest) {
 
     const timestamp = new Date().toISOString();
 
-    // Save to Google Sheets — 10 columns (A:J)
-    // Col I = status (initial 'New'), Col J = message
-    // PATCH /api/admin/leads/[rowIndex] updates Col I only
+    // Save to Google Sheets — best-effort, don't let Sheets issues block the response
     if (SHEET_ID) {
-      await appendToSheet(SHEET_ID, 'Leads!A:J', [[
-        timestamp, name, email, phone, age || '',
-        concern, preferredTime || '', consultationType, 'New', message || '',
-      ]]);
+      try {
+        await appendToSheet(SHEET_ID, 'Leads!A:J', [[
+          timestamp, name, email, phone, age || '',
+          concern, preferredTime || '', consultationType, 'New', message || '',
+        ]]);
+      } catch (sheetErr) {
+        console.error('[appointment API] Sheets write failed (appointment still processed):', (sheetErr as Error).message);
+      }
     }
 
     // Best-effort email — don't let email failures block the appointment
