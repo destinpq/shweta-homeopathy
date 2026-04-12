@@ -99,11 +99,15 @@ export default function ServiceFilterGrid({ conditions }: Props) {
                 {/* Hover reveal layer */}
                 <div className={styles.reveal}>
                   <h3 className={styles.revealTitle}>{c.name}</h3>
-                  <div className={styles.revealSymptoms}>
-                    {c.symptoms.slice(0, 4).filter(Boolean).map((s) => (
-                      <span key={s} className={styles.symptomPill}>{s}</span>
-                    ))}
-                  </div>
+                  {c.symptoms.filter(Boolean).length > 0 ? (
+                    <div className={styles.revealSymptoms}>
+                      {c.symptoms.slice(0, 4).filter(Boolean).map((s) => (
+                        <span key={s} className={styles.symptomPill}>{s}</span>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className={styles.revealDesc}>{c.shortDesc}</p>
+                  )}
                   <span className={styles.revealCta}>Book for this →</span>
                 </div>
               </Link>

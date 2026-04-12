@@ -141,6 +141,7 @@
   transform: translateY(12px);
   transition: opacity 0.28s ease, transform 0.28s ease;
   border-radius: var(--radius-lg);
+  color: var(--clr-white);
 }
 
 .card:hover .reveal {
@@ -170,6 +171,17 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-full);
   padding: 3px 10px;
+}
+
+.revealDesc {
+  font-size: var(--text-sm);
+  color: rgba(255, 255, 255, 0.80);
+  line-height: 1.55;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .revealCta {
@@ -203,6 +215,13 @@
     opacity: 1;
     transform: none;
     padding: var(--space-3) var(--space-5) var(--space-5);
+    color: var(--clr-text);
+  }
+  .revealTitle {
+    color: var(--clr-forest);
+  }
+  .revealDesc {
+    color: var(--clr-text-mid);
   }
   .symptomPill {
     color: var(--clr-text-lt);
