@@ -76,12 +76,16 @@ async function writeTabRow(sheetId: string, tab: string, headers: string[], valu
 
 // ─── Public API ───────────────────────────────────────────────────────────────
 
+let _landingCache: { data: LandingConfig; ts: number } | null = null;
+const LANDING_TTL = 5 * 60 * 1000;
+
 export async function getLandingConfig(): Promise<LandingConfig> {
+  if (_landingCache && Date.now() - _landingCache.ts < LANDING_TTL) return _landingCache.data;
   try {
     const id = SHEET_ID();
     if (!id) return LANDING_DEFAULTS;
     const map = await readTabRow(id, LANDING_TAB, LANDING_HEADERS);
-    return {
+    const config = {
       headline: map['headline'] || LANDING_DEFAULTS.headline,
       subheadline: map['subheadline'] || LANDING_DEFAULTS.subheadline,
       video_url: map['video_url'] || LANDING_DEFAULTS.video_url,
@@ -89,6 +93,8 @@ export async function getLandingConfig(): Promise<LandingConfig> {
       whatsapp_message: map['whatsapp_message'] || LANDING_DEFAULTS.whatsapp_message,
       cta_text: map['cta_text'] || LANDING_DEFAULTS.cta_text,
     };
+    _landingCache = { data: config, ts: Date.now() };
+    return config;
   } catch {
     return LANDING_DEFAULTS;
   }
@@ -101,16 +107,22 @@ export async function setLandingConfig(config: Partial<LandingConfig>): Promise<
   await writeTabRow(id, LANDING_TAB, LANDING_HEADERS, { ...current, ...config });
 }
 
+let _trackingCache: { data: TrackingConfig; ts: number } | null = null;
+const TRACKING_TTL = 5 * 60 * 1000; // 5 min cache
+
 export async function getTrackingConfig(): Promise<TrackingConfig> {
+  if (_trackingCache && Date.now() - _trackingCache.ts < TRACKING_TTL) return _trackingCache.data;
   try {
     const id = SHEET_ID();
     if (!id) return TRACKING_DEFAULTS;
     const map = await readTabRow(id, TRACKING_TAB, TRACKING_HEADERS);
-    return {
+    const config = {
       meta_pixel_id: map['meta_pixel_id'] ?? '',
       google_ads_id: map['google_ads_id'] ?? '',
       google_ads_label: map['google_ads_label'] ?? '',
     };
+    _trackingCache = { data: config, ts: Date.now() };
+    return config;
   } catch {
     return TRACKING_DEFAULTS;
   }
