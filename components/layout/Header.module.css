@@ -33,24 +33,11 @@
   flex-shrink: 0;
 }
 
-.logoMark {
-  width: 42px;
-  height: 42px;
-  border-radius: var(--radius-md);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.logoImg {
+  height: 56px;
+  width: 56px;
+  object-fit: contain;
   flex-shrink: 0;
-  overflow: hidden;
-}
-
-.logoName {
-  display: block;
-  font-family: var(--font-heading);
-  font-size: var(--text-base);
-  font-weight: 700;
-  color: var(--clr-forest);
-  line-height: 1.2;
 }
 
 .logoSub {
@@ -60,7 +47,7 @@
   color: var(--clr-text-lt);
   letter-spacing: 0.04em;
   line-height: 1;
-  margin-top: 2px;
+  white-space: nowrap;
 }
 
 .nav {

@@ -52,13 +52,15 @@ export default function Header() {
       <div className={`container ${styles.inner}`}>
         {/* Logo */}
         <Link href="/" className={styles.logo}>
-          <div className={styles.logoMark}>
-            <Image src="/images/logo.svg" alt="Dr. Shweta's Homoeopathy" width={42} height={42} priority />
-          </div>
-          <div>
-            <span className={styles.logoName}>Dr. Shweta Goyal</span>
-            <span className={styles.logoSub}>BHMS · MD (Hom) · PG IACH Greece</span>
-          </div>
+          <Image
+            src="/images/logo.webp"
+            alt="Dr. Shweta's Homoeopathy"
+            width={56}
+            height={56}
+            priority
+            className={styles.logoImg}
+          />
+          <span className={styles.logoSub}>BHMS · MD (Hom) · PG IACH Greece</span>
         </Link>
 
         {/* Desktop nav */}
