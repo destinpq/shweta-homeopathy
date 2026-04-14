@@ -26,6 +26,7 @@ export async function uploadFileToDrive(opts: {
   const drive = google.drive({ version: 'v3', auth });
   const stream = Readable.from(opts.buffer);
   const res = await drive.files.create({
+    supportsAllDrives: true,
     requestBody: {
       name: opts.filename,
       parents: [folderId],
@@ -48,6 +49,8 @@ export async function listDriveFiles(folderId?: string): Promise<{ id: string; n
     fields: 'files(id,name,mimeType,webViewLink,thumbnailLink,createdTime,size)',
     orderBy: 'createdTime desc',
     pageSize: 100,
+    supportsAllDrives: true,
+    includeItemsFromAllDrives: true,
   });
   return (res.data.files || []) as { id: string; name: string; mimeType: string; webViewLink: string; thumbnailLink: string; createdTime: string; size: string }[];
 }
@@ -57,6 +60,7 @@ export async function getFilePublicUrl(fileId: string): Promise<string> {
   const drive = google.drive({ version: 'v3', auth });
   await drive.permissions.create({
     fileId,
+    supportsAllDrives: true,
     requestBody: { role: 'reader', type: 'anyone' },
   });
   return `https://drive.google.com/uc?id=${fileId}`;
@@ -66,6 +70,7 @@ export async function createDriveFolder(name: string, parentFolderId: string): P
   const auth  = getAuth();
   const drive = google.drive({ version: 'v3', auth });
   const res   = await drive.files.create({
+    supportsAllDrives: true,
     requestBody: {
       name,
       mimeType: 'application/vnd.google-apps.folder',

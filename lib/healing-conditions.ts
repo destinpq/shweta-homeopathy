@@ -82,7 +82,7 @@ export async function updateCondition(slug: string, data: Partial<HealingConditi
   if (!found) return null;
   const updated: HealingCondition = { ...found.condition, ...data };
   const sheetRow = found.rowIndex + 1;
-  await updateSheetRow(SHEET_ID(), `${TAB}!A${sheetRow}:H${sheetRow}`, [conditionToRow(updated)]);
+  await updateSheetRow(SHEET_ID(), `${TAB}!A${sheetRow}:I${sheetRow}`, [conditionToRow(updated)]);
   return updated;
 }
 

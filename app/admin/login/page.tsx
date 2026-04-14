@@ -55,7 +55,7 @@ export default function AdminLoginPage() {
               value={password}
               onChange={(e) => { setPassword(e.target.value); setError(''); }}
               placeholder="Admin password"
-              autoFocus
+              autoComplete="current-password"
             />
           </div>
           {error && <p className={styles.errMsg}>{error}</p>}

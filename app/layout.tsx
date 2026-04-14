@@ -43,7 +43,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const tracking = await getTrackingConfig().catch(() => ({ meta_pixel_id: '', google_ads_id: '', google_ads_label: '' }));
 
   return (
-    <html lang="en" data-scroll-behavior="smooth" className={`${playfair.variable} ${inter.variable}`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${playfair.variable} ${inter.variable}`} suppressHydrationWarning>
       <body>
         <TrackingScripts
           metaPixelId={tracking.meta_pixel_id}

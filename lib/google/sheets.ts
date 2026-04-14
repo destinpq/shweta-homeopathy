@@ -194,11 +194,20 @@ export async function appendToSheet(
   range: string,
   values: (string | number | null)[][],
 ) {
+  // Use a fixed-cell anchor (TabName!A1) rather than a column range.
+  // The values.append API detects a "table" starting from the first column of the
+  // given range. If we pass "Tab!A:J", Sheets can misidentify the table start as a
+  // non-A column when some rows have data only in later columns. Anchoring to A1
+  // forces the table's first column to always be A so data is written from column A.
+  const tabName   = range.includes('!') ? range.split('!')[0] : range;
+  const anchoredRange = `${tabName}!A1`;
+
   await withRetry(`append(${range})`, () =>
     getSheetsClient().spreadsheets.values.append({
       spreadsheetId: sheetId,
-      range,
+      range: anchoredRange,
       valueInputOption: 'USER_ENTERED',
+      insertDataOption: 'INSERT_ROWS',
       requestBody: { values },
     }),
   );

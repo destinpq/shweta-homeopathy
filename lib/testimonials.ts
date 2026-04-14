@@ -122,7 +122,7 @@ export async function updateTestimonial(
   if (!found) return null;
   const updated: Testimonial = { ...found.testimonial, ...data };
   const sheetRow = found.rowIndex + 1; // 1-based
-  await updateSheetRow(SHEET_ID(), `${TAB}!A${sheetRow}:H${sheetRow}`, [testimonialToRow(updated)]);
+  await updateSheetRow(SHEET_ID(), `${TAB}!A${sheetRow}:I${sheetRow}`, [testimonialToRow(updated)]);
   return updated;
 }
 

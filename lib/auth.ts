@@ -26,6 +26,15 @@ export async function verifyAdminToken(token: string): Promise<boolean> {
 
 export function getTokenFromRequest(req: Request): string | null {
   const auth = req.headers.get('authorization');
-  if (auth?.startsWith('Bearer ')) return auth.slice(7);
+  if (auth?.startsWith('Bearer ')) {
+    const token = auth.slice(7);
+    if (token) return token;
+  }
+  // Fall back to the httpOnly cookie sent automatically by the browser
+  const cookieHeader = req.headers.get('cookie');
+  if (cookieHeader) {
+    const match = cookieHeader.match(/(?:^|;\s*)admin_token=([^;]+)/);
+    if (match) return decodeURIComponent(match[1]);
+  }
   return null;
 }
