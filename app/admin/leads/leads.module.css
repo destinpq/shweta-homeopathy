@@ -39,3 +39,4 @@
 .status_cancelled { background: #fff5f5; color: #c53030; border-color: #fed7d7; }
 .status_completed { background: var(--clr-sage-pale); color: var(--clr-forest); border-color: var(--clr-sage-lt); }
 .savedBadge { font-size: var(--text-xs); color: var(--clr-sage); font-weight: 700; }
+.clientLink { font-size: var(--text-xs); color: var(--clr-sage); font-weight: 600; text-decoration: underline; margin-left: 0.5rem; white-space: nowrap; }

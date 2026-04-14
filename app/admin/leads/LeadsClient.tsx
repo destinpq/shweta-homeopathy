@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import Link from 'next/link';
 import s from './leads.module.css';
 
 type Row = Record<string, string>;
@@ -15,22 +16,25 @@ const CTACT_COLS = ['timestamp','name','email','phone','subject','message'];
 const STATUSES   = ['New', 'Contacted', 'Confirmed', 'Cancelled', 'Completed'];
 
 function StatusCell({ value, rowIndex }: { value: string; rowIndex: number }) {
-  const [status, setStatus]     = useState(value || 'New');
-  const [saving, setSaving]     = useState(false);
-  const [saved,  setSaved]      = useState(false);
+  const [status,   setStatus]   = useState(value || 'New');
+  const [saving,   setSaving]   = useState(false);
+  const [saved,    setSaved]    = useState(false);
+  const [clientId, setClientId] = useState<string | null>(null);
 
   async function handleChange(next: string) {
     setStatus(next);
     setSaving(true);
     setSaved(false);
     try {
-      await fetch(`/api/admin/leads/${rowIndex}`, {
+      const res  = await fetch(`/api/admin/leads/${rowIndex}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: next }),
       });
+      const data = await res.json();
       setSaved(true);
-      setTimeout(() => setSaved(false), 1500);
+      if (data.clientId) setClientId(data.clientId);
+      setTimeout(() => setSaved(false), 2000);
     } finally {
       setSaving(false);
     }
@@ -47,6 +51,11 @@ function StatusCell({ value, rowIndex }: { value: string; rowIndex: number }) {
         {STATUSES.map(st => <option key={st} value={st}>{st}</option>)}
       </select>
       {saved && <span className={s.savedBadge}>✓</span>}
+      {clientId && (
+        <Link href={`/admin/clients/${clientId}`} className={s.clientLink}>
+          View Client →
+        </Link>
+      )}
     </span>
   );
 }

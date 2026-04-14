@@ -18,14 +18,26 @@ async function fetchClient(id: string) {
   }
 }
 
+async function fetchClientNotes(clientId: string) {
+  try {
+    const base = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const res  = await fetch(`${base}/api/admin/notes?clientId=${clientId}`, { cache: 'no-store' });
+    if (!res.ok) return [];
+    const { notes } = await res.json();
+    return notes ?? [];
+  } catch {
+    return [];
+  }
+}
+
 export default async function ClientDetailPage({ params }: PageProps) {
   const { id }  = await params;
-  const client  = await fetchClient(id);
+  const [client, sessionNotes] = await Promise.all([fetchClient(id), fetchClientNotes(id)]);
   if (!client) notFound();
 
   return (
     <AdminLayout>
-      <ClientDetailClient client={client} />
+      <ClientDetailClient client={client} sessionNotes={sessionNotes} />
     </AdminLayout>
   );
 }

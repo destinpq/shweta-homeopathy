@@ -4,8 +4,8 @@ import { createBlogDoc } from '@/lib/google/docs';
 import { randomUUID } from 'crypto';
 
 const BOOKINGS_ID = () => process.env.GOOGLE_SHEETS_BOOKINGS_ID || '';
-const RANGE_NOTES = 'Notes!A:J';
-const HEADERS = ['id','patientName','date','caseId','driveFileId','driveFileName','docId','docUrl','status','extractedTextPreview'];
+const RANGE_NOTES = 'Notes!A:K';
+const HEADERS = ['id','patientName','date','caseId','driveFileId','driveFileName','docId','docUrl','status','extractedTextPreview','clientId'];
 
 async function ensureNotesSheet() {
   const rows = await readSheet(BOOKINGS_ID(), RANGE_NOTES);
@@ -14,23 +14,28 @@ async function ensureNotesSheet() {
   }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     await ensureNotesSheet();
     const rows = (await readSheet(BOOKINGS_ID(), RANGE_NOTES)) as string[][];
     const data  = rows.length > 1 ? rows.slice(1) : [];
-    const notes = data.map(row => ({
-      id:                   row[0] || '',
-      patientName:          row[1] || '',
-      date:                 row[2] || '',
-      caseId:               row[3] || '',
-      driveFileId:          row[4] || '',
-      driveFileName:        row[5] || '',
-      docId:                row[6] || '',
-      docUrl:               row[7] || '',
-      status:               row[8] || '',
-      extractedTextPreview: row[9] || '',
-    }));
+    const clientIdFilter = req.nextUrl.searchParams.get('clientId') || '';
+    const notes = data
+      .filter(row => row[0])
+      .filter(row => !clientIdFilter || row[10] === clientIdFilter)
+      .map(row => ({
+        id:                   row[0] || '',
+        patientName:          row[1] || '',
+        date:                 row[2] || '',
+        caseId:               row[3] || '',
+        driveFileId:          row[4] || '',
+        driveFileName:        row[5] || '',
+        docId:                row[6] || '',
+        docUrl:               row[7] || '',
+        status:               row[8] || '',
+        extractedTextPreview: row[9] || '',
+        clientId:             row[10] || '',
+      }));
     return NextResponse.json({ notes });
   } catch (err) {
     console.error('[notes GET]', err);
@@ -39,14 +44,14 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  let body: { patientName: string; date: string; caseId?: string; cleanedNote: string; driveFileId?: string; driveFileName?: string };
+  let body: { patientName: string; date: string; caseId?: string; cleanedNote: string; driveFileId?: string; driveFileName?: string; clientId?: string };
   try {
     body = await req.json();
   } catch {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
   }
 
-  const { patientName, date, caseId = '', cleanedNote, driveFileId = '', driveFileName = '' } = body;
+  const { patientName, date, caseId = '', cleanedNote, driveFileId = '', driveFileName = '', clientId = '' } = body;
   if (!patientName || !date || !cleanedNote) {
     return NextResponse.json({ error: 'patientName, date, and cleanedNote are required' }, { status: 400 });
   }
@@ -64,7 +69,7 @@ export async function POST(req: NextRequest) {
       console.warn('createBlogDoc failed (SA quota?), saving note without doc link:', (e as Error).message);
     }
     const preview = cleanedNote.slice(0, 120).replace(/\n/g, ' ');
-    const row = [id, patientName, date, caseId, driveFileId, driveFileName, docId, docUrl, 'saved', preview];
+    const row = [id, patientName, date, caseId, driveFileId, driveFileName, docId, docUrl, 'saved', preview, clientId];
     await appendToSheet(BOOKINGS_ID(), RANGE_NOTES, [row]);
     return NextResponse.json({ id, docId, docUrl, status: 'saved' }, { status: 201 });
   } catch (err) {

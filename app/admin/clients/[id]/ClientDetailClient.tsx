@@ -9,7 +9,12 @@ interface Client {
   notes: string; docId: string; docUrl: string; driveFolderId: string; status: string;
 }
 
-export default function ClientDetailClient({ client }: { client: Client }) {
+interface SessionNote {
+  id: string; patientName: string; date: string; caseId: string;
+  docUrl: string; status: string; extractedTextPreview: string;
+}
+
+export default function ClientDetailClient({ client, sessionNotes = [] }: { client: Client; sessionNotes?: SessionNote[] }) {
   const [sessionDate, setSessionDate] = useState('');
   const [uploading, setUploading]     = useState(false);
   const [ocrText, setOcrText]         = useState('');
@@ -131,6 +136,39 @@ export default function ClientDetailClient({ client }: { client: Client }) {
             )}
           </div>
         </div>
+      </div>
+
+      {/* Session Notes */}
+      <div className={s.card} style={{ marginTop: '1.5rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+          <p className={s.cardTitle} style={{ margin: 0 }}>Session Notes ({sessionNotes.length})</p>
+          <Link href={`/admin/notes/new`} className={`${s.btn} ${s.btnPrimary} ${s.btnSmall}`}>+ New Note</Link>
+        </div>
+        {sessionNotes.length === 0 ? (
+          <p style={{ fontSize: '0.875rem', color: '#6b7280' }}>No notes yet. Upload a handwritten note above or use the New Note button.</p>
+        ) : (
+          <table className={s.table}>
+            <thead>
+              <tr><th>Date</th><th>Case ID</th><th>Preview</th><th>Doc</th></tr>
+            </thead>
+            <tbody>
+              {sessionNotes.map(n => (
+                <tr key={n.id}>
+                  <td style={{ whiteSpace: 'nowrap' }}>{n.date}</td>
+                  <td>{n.caseId || '—'}</td>
+                  <td style={{ maxWidth: '30rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {n.extractedTextPreview || '—'}
+                  </td>
+                  <td>
+                    {n.docUrl
+                      ? <a href={n.docUrl} target="_blank" rel="noopener noreferrer" className={s.docLink}>Open ↗</a>
+                      : '—'}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </>
   );

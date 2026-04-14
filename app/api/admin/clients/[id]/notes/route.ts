@@ -3,6 +3,11 @@ import { getClientById, updateClient } from '@/lib/clients';
 import { extractTextFromImage } from '@/lib/ocr';
 import { appendToClientDoc } from '@/lib/google/docs';
 import { uploadFileToDrive } from '@/lib/google/drive';
+import { appendToSheet } from '@/lib/google/sheets';
+import { randomUUID } from 'crypto';
+
+const BOOKINGS_ID  = () => process.env.GOOGLE_SHEETS_BOOKINGS_ID || '';
+const RANGE_NOTES  = 'Notes!A:K';
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -24,6 +29,7 @@ export async function POST(req: Request, { params }: Params) {
 
     // Upload image to client's Drive subfolder
     let uploadedUrl = '';
+    let driveFileId = '';
     if (client.driveFolderId) {
       const uploaded = await uploadFileToDrive({
         filename: `note_${Date.now()}_${file.name}`,
@@ -31,7 +37,8 @@ export async function POST(req: Request, { params }: Params) {
         buffer,
         folderId: client.driveFolderId,
       });
-      uploadedUrl = uploaded.webViewLink;
+      uploadedUrl  = uploaded.webViewLink;
+      driveFileId  = uploaded.id;
     }
 
     // OCR via GPT-4o
@@ -42,6 +49,17 @@ export async function POST(req: Request, { params }: Params) {
     // Append to client's Google Doc
     if (client.docId) {
       await appendToClientDoc(client.docId, text, dateInput || undefined);
+    }
+
+    // Save to the Notes sheet (links note to client)
+    const sessionDate = dateInput || new Date().toISOString().slice(0, 10);
+    try {
+      const noteId  = randomUUID();
+      const preview = text.slice(0, 120).replace(/\n/g, ' ');
+      const row = [noteId, client.name, sessionDate, '', driveFileId, file.name, '', '', 'saved', preview, client.id];
+      await appendToSheet(BOOKINGS_ID(), RANGE_NOTES, [row]);
+    } catch (e) {
+      console.warn('[client notes] failed to save to Notes sheet:', (e as Error).message);
     }
 
     // Also save a brief note reference on the client row
