@@ -59,10 +59,16 @@ const CONDITIONS_TTL = 5 * 60 * 1000; // 5 min
 
 async function getConditionRows(): Promise<string[][]> {
   if (_conditionRowsCache && Date.now() - _conditionRowsCache.ts < CONDITIONS_TTL) return _conditionRowsCache.data;
-  const rows = await readSheet(SHEET_ID(), RANGE);
-  const data = rows ?? [];
-  _conditionRowsCache = { data, ts: Date.now() };
-  return data;
+  try {
+    const rows = await readSheet(SHEET_ID(), RANGE);
+    const data = rows ?? [];
+    _conditionRowsCache = { data, ts: Date.now() };
+    return data;
+  } catch {
+    // Tab doesn't exist yet — fall back to static conditions, cache briefly to avoid build-time spam
+    _conditionRowsCache = { data: [], ts: Date.now() };
+    return [];
+  }
 }
 
 export async function getAllConditions(includeDraft = false): Promise<HealingCondition[]> {
