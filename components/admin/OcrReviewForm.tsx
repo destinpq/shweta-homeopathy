@@ -201,18 +201,6 @@ export default function OcrReviewForm() {
     </div>
   );
 }
-
-type Step = 1 | 2 | 3;
-
-interface OcrResult {
-  rawTranscription: string;
-  cleanedNote: string;
-  uncertainItems: { text: string; reason: string }[];
-  driveFileId: string;
-  driveFileName: string;
-}
-
-export default function OcrReviewForm() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
