@@ -46,6 +46,8 @@ export default function AdminLoginPage() {
         <p className={styles.subtitle}>Enter the admin password to continue.</p>
 
         <form className={styles.form} onSubmit={submit} noValidate>
+          {/* Hidden username field for password manager accessibility */}
+          <input type="text" name="username" value="admin" readOnly autoComplete="username" style={{ display: 'none' }} />
           <div className={styles.field}>
             <label className={styles.label} htmlFor="password">Password</label>
             <input
