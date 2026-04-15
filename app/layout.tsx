@@ -1,8 +1,17 @@
 import type { Metadata } from 'next';
+import { unstable_cache } from 'next/cache';
 import { Playfair_Display, Inter } from 'next/font/google';
 import TrackingScripts from '@/components/public/TrackingScripts';
 import { getTrackingConfig } from '@/lib/landing';
 import './globals.css';
+
+// Cache tracking config in the shared Next.js build cache so all workers
+// reuse one Sheets read instead of each worker fetching independently.
+const getCachedTrackingConfig = unstable_cache(
+  () => getTrackingConfig(),
+  ['tracking-config'],
+  { revalidate: 3600 },
+);
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -40,7 +49,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const tracking = await getTrackingConfig().catch(() => ({ meta_pixel_id: '', google_ads_id: '', google_ads_label: '' }));
+  const tracking = await getCachedTrackingConfig().catch(() => ({ meta_pixel_id: '', google_ads_id: '', google_ads_label: '' }));
 
   return (
     <html lang="en" data-scroll-behavior="smooth" className={`${playfair.variable} ${inter.variable}`} suppressHydrationWarning>

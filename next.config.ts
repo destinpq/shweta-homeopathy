@@ -2,6 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
+  experimental: {
+    cpus: 2, // limit parallel static-page workers to avoid Google Sheets quota exhaustion
+  },
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'drshwetahomoeopathy.com' },

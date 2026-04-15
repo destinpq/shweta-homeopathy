@@ -52,10 +52,16 @@ function rowToPost(row: string[]): BlogPost {
   };
 }
 
+let _blogsCache: { data: BlogPost[]; ts: number } | null = null;
+const BLOGS_TTL = 5 * 60 * 1000; // 5 min
+
 export async function getAllBlogs(): Promise<BlogPost[]> {
+  if (_blogsCache && Date.now() - _blogsCache.ts < BLOGS_TTL) return _blogsCache.data;
   const rows = await readSheet(SHEET_ID(), RANGE_POSTS);
   if (!rows || rows.length < 2) return [];
-  return rows.slice(1).map(rowToPost).filter((p) => p.id);
+  const data = rows.slice(1).map(rowToPost).filter((p) => p.id);
+  _blogsCache = { data, ts: Date.now() };
+  return data;
 }
 
 export async function getLatestBlogs(n: number): Promise<BlogPost[]> {
@@ -101,6 +107,7 @@ export async function createBlog(data: {
     post.tags, post.author, post.publishedDate, post.updatedDate, post.status,
     post.metaDescription, post.docId, post.docUrl,
   ]]);
+  _blogsCache = null;
   return post;
 }
 
@@ -121,6 +128,7 @@ export async function updateBlog(id: string, data: Partial<BlogPost & { htmlCont
     updated.category, updated.tags, updated.author, updated.publishedDate, updated.updatedDate,
     updated.status, updated.metaDescription, updated.docId, updated.docUrl,
   ]]);
+  _blogsCache = null;
   return updated;
 }
 
@@ -133,6 +141,7 @@ export async function deleteBlog(id: string): Promise<boolean> {
   const existing = rowToPost(rows[rowIndex]);
   const range = `Blogs!K${rowIndex + 1}`;
   await updateSheetRow(SHEET_ID(), range, [['deleted']]);
+  _blogsCache = null;
   return !!existing.id;
 }
 

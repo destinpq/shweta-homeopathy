@@ -50,15 +50,26 @@ async function ensureHeaders() {
   if (!rows || rows.length === 0) await appendToSheet(SHEET_ID(), RANGE, [HEADERS]);
 }
 
-export async function getAllConditions(includeDraft = false): Promise<HealingCondition[]> {
+let _conditionRowsCache: { data: string[][]; ts: number } | null = null;
+const CONDITIONS_TTL = 5 * 60 * 1000; // 5 min
+
+async function getConditionRows(): Promise<string[][]> {
+  if (_conditionRowsCache && Date.now() - _conditionRowsCache.ts < CONDITIONS_TTL) return _conditionRowsCache.data;
   const rows = await readSheet(SHEET_ID(), RANGE);
+  const data = rows ?? [];
+  _conditionRowsCache = { data, ts: Date.now() };
+  return data;
+}
+
+export async function getAllConditions(includeDraft = false): Promise<HealingCondition[]> {
+  const rows = await getConditionRows();
   if (!rows || rows.length <= 1) return STATIC_CONDITIONS.filter(c => includeDraft || c.status === 'published');
   const all = rows.slice(1).filter(r => r[0]).map(rowToCondition);
   return includeDraft ? all : all.filter(c => c.status === 'published');
 }
 
 export async function getConditionBySlug(slug: string): Promise<{ condition: HealingCondition; rowIndex: number } | null> {
-  const rows = await readSheet(SHEET_ID(), RANGE);
+  const rows = await getConditionRows();
   if (!rows || rows.length <= 1) {
     const staticMatch = STATIC_CONDITIONS.find(c => c.slug === slug);
     return staticMatch ? { condition: staticMatch, rowIndex: -1 } : null;
@@ -74,6 +85,7 @@ export async function getConditionBySlug(slug: string): Promise<{ condition: Hea
 export async function createCondition(data: HealingCondition): Promise<HealingCondition> {
   await ensureHeaders();
   await appendToSheet(SHEET_ID(), RANGE, [conditionToRow(data)]);
+  _conditionRowsCache = null;
   return data;
 }
 
@@ -83,6 +95,7 @@ export async function updateCondition(slug: string, data: Partial<HealingConditi
   const updated: HealingCondition = { ...found.condition, ...data };
   const sheetRow = found.rowIndex + 1;
   await updateSheetRow(SHEET_ID(), `${TAB}!A${sheetRow}:I${sheetRow}`, [conditionToRow(updated)]);
+  _conditionRowsCache = null;
   return updated;
 }
 
@@ -90,5 +103,6 @@ export async function deleteCondition(slug: string): Promise<boolean> {
   const found = await getConditionBySlug(slug);
   if (!found) return false;
   await deleteSheetRow(SHEET_ID(), 0, found.rowIndex);
+  _conditionRowsCache = null;
   return true;
 }
