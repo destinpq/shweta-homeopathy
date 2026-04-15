@@ -1,4 +1,4 @@
-import { readSheet, appendToSheet, updateSheetRow, deleteSheetRow } from './google/sheets';
+import { readSheet, appendToSheet, updateSheetRow, deleteSheetRow, ensureSheetTab } from './google/sheets';
 import type { ConditionCategory } from './conditions';
 import { STATIC_CONDITIONS } from './static-conditions';
 
@@ -46,12 +46,7 @@ function conditionToRow(c: HealingCondition): string[] {
 }
 
 async function ensureHeaders() {
-  try {
-    const rows = await readSheet(SHEET_ID(), RANGE);
-    if (!rows || rows.length === 0) await appendToSheet(SHEET_ID(), RANGE, [HEADERS]);
-  } catch {
-    await appendToSheet(SHEET_ID(), RANGE, [HEADERS]);
-  }
+  await ensureSheetTab(SHEET_ID(), TAB, HEADERS);
 }
 
 let _conditionRowsCache: { data: string[][]; ts: number } | null = null;

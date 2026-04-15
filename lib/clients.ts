@@ -1,4 +1,4 @@
-import { readSheet, appendToSheet, updateSheetRow, deleteSheetRow } from './google/sheets';
+import { readSheet, appendToSheet, updateSheetRow, deleteSheetRow, ensureSheetTab } from './google/sheets';
 import { createClientDoc } from './google/docs';
 import { createDriveFolder } from './google/drive';
 
@@ -60,13 +60,7 @@ function clientToRow(c: Client): (string | null)[] {
 }
 
 async function ensureHeaders() {
-  try {
-    const rows = await readSheet(SHEET_ID(), RANGE);
-    if (!rows || rows.length === 0) await appendToSheet(SHEET_ID(), RANGE, [HEADERS]);
-  } catch {
-    // Tab doesn't exist yet — appendToSheet will create it
-    await appendToSheet(SHEET_ID(), RANGE, [HEADERS]);
-  }
+  await ensureSheetTab(SHEET_ID(), TAB, HEADERS);
 }
 
 export async function getAllClients(): Promise<Client[]> {
