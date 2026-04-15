@@ -1,7 +1,14 @@
 #!/bin/bash
 # push-all-data.sh — pushes blog posts and testimonials via admin curl API
 
-BASE="http://localhost:4000"
+# Load NEXT_PUBLIC_BASE_URL from .env.local
+set -a
+# shellcheck disable=SC1091
+[ -f "$(dirname "$0")/../.env.local" ] && source "$(dirname "$0")/../.env.local
+[ -f "$(dirname "$0")/../.env" ]       && source "$(dirname "$0")/../.env"
+set +a
+
+BASE="${NEXT_PUBLIC_BASE_URL}"
 COOKIE=/tmp/shweta_cookies.txt
 
 # Login

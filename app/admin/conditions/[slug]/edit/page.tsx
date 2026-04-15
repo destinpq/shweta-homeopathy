@@ -7,7 +7,7 @@ type Props = { params: Promise<{ slug: string }> };
 
 async function fetchCondition(slug: string) {
   try {
-    const base = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const base = process.env.NEXT_PUBLIC_BASE_URL;
     const res  = await fetch(`${base}/api/admin/conditions/${slug}`, { cache: 'no-store' });
     if (!res.ok) return null;
     return (await res.json()).condition;

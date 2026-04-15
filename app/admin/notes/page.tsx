@@ -13,7 +13,7 @@ interface Note {
 
 async function fetchNotes(): Promise<{ notes: Note[]; error?: string }> {
   try {
-    const base = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const base = process.env.NEXT_PUBLIC_BASE_URL;
     const res  = await fetch(`${base}/api/admin/notes`, { cache: 'no-store' });
     if (!res.ok) throw new Error(`Status ${res.status}`);
     return res.json();

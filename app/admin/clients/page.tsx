@@ -6,7 +6,7 @@ export const metadata = { title: 'Clients — Admin' };
 
 async function fetchClients() {
   try {
-    const base = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const base = process.env.NEXT_PUBLIC_BASE_URL;
     const res  = await fetch(`${base}/api/admin/clients`, { cache: 'no-store' });
     if (!res.ok) throw new Error(`Status ${res.status}`);
     const data = await res.json();

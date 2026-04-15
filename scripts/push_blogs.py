@@ -1,7 +1,21 @@
 import csv, subprocess, json, re, os, shutil
 
 COOKIE = '/tmp/shweta_cookies.txt'
-BASE   = 'http://localhost:4000'
+
+# Load BASE from .env.local / .env — never hardcode
+def _load_env(*paths: str) -> None:
+    for p in paths:
+        if os.path.exists(p):
+            with open(p) as _f:
+                for _line in _f:
+                    _line = _line.strip()
+                    if _line and not _line.startswith('#') and '=' in _line:
+                        k, v = _line.split('=', 1)
+                        os.environ.setdefault(k.strip(), v.strip())
+
+_root = os.path.join(os.path.dirname(__file__), '..')
+_load_env(os.path.join(_root, '.env.local'), os.path.join(_root, '.env'))
+BASE = os.environ['NEXT_PUBLIC_BASE_URL']
 CSV    = 'public/blog_posts.csv'
 BLOG_DIR  = 'public/photos/blog'
 WP_UPLOADS = '/Applications/MAMP/htdocs/old/wp-content/uploads'

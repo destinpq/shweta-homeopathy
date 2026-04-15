@@ -6,7 +6,7 @@ export const metadata = { title: 'Conditions — Admin' };
 
 async function fetchConditions() {
   try {
-    const base = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const base = process.env.NEXT_PUBLIC_BASE_URL;
     const res  = await fetch(`${base}/api/admin/conditions?all=1`, { cache: 'no-store' });
     if (!res.ok) throw new Error();
     const { conditions } = await res.json();
