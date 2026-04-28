@@ -34,7 +34,14 @@ export default function ContactForm() {
     setLoading(true); setServerError('');
     try {
       const res = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(fields) });
-      if (!res.ok) throw new Error((await res.json()).error || 'Error');
+      if (!res.ok) {
+        let errMsg = 'Something went wrong. Please try again.';
+        try {
+          const data = await res.json();
+          if (data.error) errMsg = data.error;
+        } catch (e) {}
+        throw new Error(errMsg);
+      }
       setSuccess(true);
     } catch (err: unknown) {
       setServerError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');

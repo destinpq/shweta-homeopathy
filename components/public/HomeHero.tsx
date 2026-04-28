@@ -455,8 +455,8 @@ export default function HomeHero({ stats }: Props) {
           >
             <Star size={20} className={styles.panelIcon} fill="currentColor" />
             <div>
-              <p className={styles.panelBig}>4.9 ★</p>
-              <p className={styles.panelSub}>Google Rating</p>
+              <p className={styles.panelBig}>4.8 ★ / 5.0 ★</p>
+              <p className={styles.panelSub}>Zirakpur / Budhlada Ratings</p>
             </div>
           </motion.div>
 

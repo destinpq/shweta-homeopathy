@@ -18,14 +18,14 @@ export const metadata: Metadata = buildMetadata({
 export const revalidate = 3600;
 
 const timeline = [
-  { year: '2020', event: 'BHMS — Gold Medalist, Panjab University' },
-  { year: '2020', event: 'Opened first clinic in Zirakpur (March)' },
-  { year: '2020', event: 'Opened second clinic in Budhlada (June)' },
-  { year: '2021', event: 'DNHE — Delhi' },
-  { year: '2021', event: 'Launched online consultations — patients across India & abroad' },
-  { year: '2023', event: 'MD in Homeopathy — Advanced specialization' },
-  { year: '2024', event: 'PG — International Academy of Classical Homeopathy (IACH), Greece' },
-  { year: '2025', event: '20,000+ patients treated. Continued focus on classical prescribing.' },
+  { year: '2020', event: 'BHMS' },
+  { year: '2020', event: 'Set up Zirakpur in clinic in March' },
+  { year: '2020', event: 'Budhlada clinic in june' },
+  { year: '2021', event: 'DNHE' },
+  { year: '2021', event: 'Online consultations' },
+  { year: '2023', event: 'MD' },
+  { year: '2024', event: 'PG Greece' },
+  { year: '2025', event: '20000+ patients' },
 ];
 
 const philosophy = [

@@ -7,23 +7,23 @@ const locations = [
   {
     city: 'Zirakpur',
     subtitle: 'Main Clinic',
-    address: 'SCO 15, Peer Muchalla, Zirakpur, Punjab 140603',
-    phone: '+91 98765 43210',
-    hours: 'Mon–Sat: 9 AM – 7 PM',
+    address: 'Patiala Road, Above Vintage Properties, Zirakpur, Punjab -140603',
+    phone: '+91 62844-11753',
+    hours: 'Mon- Sun 9:30 am-6:30 pm',
   },
   {
     city: 'Budhlada',
     subtitle: 'Branch Clinic',
-    address: 'Near Bus Stand, Budhlada, Mansa, Punjab 151502',
-    phone: '+91 98765 43211',
-    hours: 'Tue & Fri: 10 AM – 4 PM',
+    address: 'Patel Marg, Near Railway Station, Budhlada, Mansa, Punjab -151502',
+    phone: '+91 90564-62817',
+    hours: 'Mon- Sun 9:00 am-6:00 pm',
   },
   {
     city: 'Online',
-    subtitle: 'Anywhere in the world',
-    address: 'Video consultations via WhatsApp, Zoom, or Google Meet',
-    phone: '+91 98765 43210',
-    hours: 'Flexible scheduling',
+    subtitle: 'Anywhere in the World',
+    address: 'Video Consultations via WhatsApp, Zoom or Google Meet',
+    phone: '+91 62844-11753',
+    hours: 'Flexible Scheduling',
   },
 ];
 

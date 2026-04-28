@@ -10,8 +10,8 @@ const steps = [
   {
     number: '01',
     icon: <CalendarCheck size={28} />,
-    title: 'Book Consultation',
-    desc: 'Fill out our simple appointment form online or call us. Free 10-min intro call available.',
+    title: 'Initial Assessment & Vital Check',
+    desc: 'Before your consultation begins, our team records essential vitals and a brief medical history to ensure a complete and informed understanding of your health.',
   },
   {
     number: '02',

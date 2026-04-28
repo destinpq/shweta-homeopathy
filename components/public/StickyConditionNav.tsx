@@ -14,7 +14,6 @@ const NAV_ITEMS: NavItem[] = [
   { id: 'treatment', label: 'Treatment' },
   { id: 'expectations', label: 'What to Expect' },
   { id: 'prepare', label: 'Prepare' },
-  { id: 'safety', label: 'Safety' },
 ];
 
 export default function StickyConditionNav() {

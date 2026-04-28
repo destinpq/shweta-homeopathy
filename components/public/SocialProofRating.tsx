@@ -53,9 +53,9 @@ function RatingBar({ stars, count, total, animate }: { stars: number; count: num
 }
 
 export default function SocialProofRating({
-  rating = 4.9,
+  rating = 4.8,
   reviewCount = 200,
-  reviewsUrl = 'https://search.google.com/local/writereview?placeid=PLACE_ID',
+  reviewsUrl = 'https://maps.app.goo.gl/Dr9n9oduRfBhsK9E7',
   breakdown = defaultBreakdown,
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
